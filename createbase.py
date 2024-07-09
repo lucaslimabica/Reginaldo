@@ -14,14 +14,19 @@ cursor.execute("""
 conn.commit()
 
 cursor.execute("""
-    CREATE TABLE IF NOT EXISTS templates (
+    CREATE TABLE IF NOT EXISTS templates_pipe (
         ID INTEGER PRIMARY KEY AUTOINCREMENT,
         FUNIL TEXT NOT NULL,
         FASES TEXT NOT NULL,
-        CAMPOS TEXT NOT NULL,
+        CAMPOS_INT TEXT,
+        CAMPOS_TEXT TEXT,
+        CAMPOS_OPS TEXT,
+        CAMPOS_DATA TEXT,
         ATIVIDADES TEXT NOT NULL,
         DATA_HORA_CRIACAO TEXT
     )""")
+
+cursor.execute("DROP TABLE IF EXISTS templates")
 
 cursor.execute("""
     CREATE TABLE IF NOT EXISTS apis (

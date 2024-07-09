@@ -13,7 +13,7 @@ class AppState:
 class App(tk.Tk):
     def __init__(self):
         super().__init__()
-        self.title("Reginaldo Alpha Version")
+        self.title("Reginaldo Beta Version")
         self.configure(bg='#FFAE69')
         self.app_state = None
 
@@ -338,8 +338,17 @@ class TemplatesPage(tk.Frame):
     def usarTemplate(self):
         modelo = self.variavel_dropdown_t.get()
         if modelo == "Empresa de Eventos":
-            PipeANDStages.template(api_token=self.app_state.api_token)
-            REGistador.fazer_LOG(f"Uso de Template: {modelo}")
+            model = REGistador.carregar_Template(2)
+            PipeANDStages.template(
+                                    funil=model["funil"],
+                                    fases=model["fases"],
+                                    campos=model["campos_texto"],
+                                    atividades=model["atividades"],
+                                    api_token=self.app_state.api_token
+                                )
+            REGistador.fazer_LOG(acao=f"Uso de Template: {modelo}", api=self.app_state.api_token)
+        else:
+            pass
 
 if __name__ == "__main__":
     app = App()
