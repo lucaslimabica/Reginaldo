@@ -194,6 +194,9 @@ class AtividadesPage(tk.Frame):
                            command=lambda: controller.show_frame("HomePage"))
         self.button.pack(pady=10)
 
+    def criarAtv(self):
+        pass
+
 if __name__ == "__main__":
     app = App()
     app.mainloop()
