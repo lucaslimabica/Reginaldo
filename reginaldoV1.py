@@ -12,7 +12,7 @@ class App(tk.Tk):
 
         # Container para os frames
         container = tk.Frame(self)
-        container.pack(side="top", fill="both", expand=True)
+        container.pack(side="top", fill="both", expand=False)
 
         # Dicionário para armazenar os frames
         self.frames = {}
@@ -92,7 +92,6 @@ class EtapasFunisPage(tk.Frame):
 
     def criarEtapa(self):
         nomes = self.entrada_nome_etapa.get()
-        #id = entrada_id_funil_etapa.get()
         nome_opcao = self.variavel_dropdown.get()
         id = self.extrair_id(nome_opcao)
         try:
@@ -195,7 +194,9 @@ class AtividadesPage(tk.Frame):
         self.button.pack(pady=10)
 
     def criarAtv(self):
-        pass
+        nome = self.entrada_nome_atv.get()
+        icon = self.variavel_dropdown_i.get()
+        PipeANDStages.criar_TipoAtividade(nome, icon.lower())
 
 if __name__ == "__main__":
     app = App()
