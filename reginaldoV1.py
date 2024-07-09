@@ -18,7 +18,7 @@ class App(tk.Tk):
         self.frames = {}
 
         # Inicialização dos frames
-        for F in (HomePage, EtapasFunisPage, CamposPage):
+        for F in (HomePage, EtapasFunisPage, CamposPage, AtividadesPage):
             page_name = F.__name__
             frame = F(parent=container, controller=self)
             self.frames[page_name] = frame
