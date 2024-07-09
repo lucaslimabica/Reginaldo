@@ -12,19 +12,19 @@ headers = {
 
 # URLs dos EndPoints
 
-urlPipe = f"https://api.pipedrive.com/v1/pipelines?api_token={API_TOKEN}"
+urlPipe = f"https://api.pipedrive.com/v1/pipelines?api_token="
 
-urlStages = f"https://api.pipedrive.com/v1/stages?api_token={API_TOKEN}"
+urlStages = f"https://api.pipedrive.com/v1/stages?api_token="
 
-urlDealsFields = f"https://api.pipedrive.com/v1/dealFields?api_token={API_TOKEN}"
+urlDealsFields = f"https://api.pipedrive.com/v1/dealFields?api_token="
 
-urlPersonsFields = f"https://api.pipedrive.com/v1/personFields?api_token={API_TOKEN}"
+urlPersonsFields = f"https://api.pipedrive.com/v1/personFields?api_token="
 
-urlAtv = f"https://api.pipedrive.com/v1/activityTypes?api_token={API_TOKEN}"
+urlAtv = f"https://api.pipedrive.com/v1/activityTypes?api_token="
 
-urlUsers = f"https://api.pipedrive.com/v1/users?api_token={API_TOKEN}"
+urlUsers = f"https://api.pipedrive.com/v1/users?api_token="
 
-urlOrgsFields = f"https://api.pipedrive.com/v1/organizationFields?api_token={API_TOKEN}"
+urlOrgsFields = f"https://api.pipedrive.com/v1/organizationFields?api_token="
 
 # Funções
 def criar_Funil(nome: str, api_token=API_TOKEN):
@@ -34,7 +34,7 @@ def criar_Funil(nome: str, api_token=API_TOKEN):
     payload = json.dumps(payload)
 
 
-    response = requests.post(urlPipe, data=payload, headers=headers)
+    response = requests.post(url=f"{urlPipe}{api_token}", data=payload, headers=headers)
     print(response.text, response.status_code)
     # response_data = response.json()
     # data = response_data["data"]
@@ -42,13 +42,16 @@ def criar_Funil(nome: str, api_token=API_TOKEN):
     return response.json()
 
 def get_funil(id="", api_token=API_TOKEN):
-    response = requests.get(url=f"https://api.pipedrive.com/v1/pipelines/{id}?api_token={API_TOKEN}")
+    response = requests.get(url=f"https://api.pipedrive.com/v1/pipelines/{id}?api_token={api_token}")
     response_data = response.json()
-    data = response_data["data"]
-    funis = []
-    for funil in data:
-        funis.append(f"{funil["id"]} - {funil["name"]}")
-    return funis
+    if api_token != None:
+        data = response_data["data"]
+        funis = []
+        for funil in data:
+            funis.append(f"{funil["id"]} - {funil["name"]}")
+        return funis
+    else:
+        return ["Recarregue o Token de API"]
 
 def criar_Fases(nomes: str, id_funil: int, api_token=API_TOKEN):
     # Divide a string em uma lista de nomes usando a vírgula como delimitador

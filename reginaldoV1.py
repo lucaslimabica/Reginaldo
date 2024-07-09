@@ -91,11 +91,14 @@ class EtapasFunisPage(tk.Frame):
         self.entrada_nome_etapa.pack(padx=10, pady=5)
 
         # Obter a lista de opções e configurar o dropdown
-        self.opcoes = PipeANDStages.get_funil()
+        self.opcoes = PipeANDStages.get_funil(api_token=self.app_state.api_token)
         self.variavel_dropdown = tk.StringVar(self)
         self.variavel_dropdown.set(self.opcoes[0])  # Valor padrão
         self.dropdown = tk.OptionMenu(self, self.variavel_dropdown, *self.opcoes)
         self.dropdown.pack(padx=10, pady=5)
+
+        self.button_atl = tk.Button(self, text="Atualizar Dropdown", command=self.atualizar_dropdown)
+        self.button_atl.pack(pady=10)
 
         self.botao_enviar_etapa = tk.Button(self, text="Criar Etapa", command=self.criarEtapa)
         self.botao_enviar_etapa.pack(padx=10, pady=10)
@@ -131,7 +134,7 @@ class EtapasFunisPage(tk.Frame):
         return None
 
     def atualizar_dropdown(self):
-        novas_opcoes = PipeANDStages.get_funil()
+        novas_opcoes = PipeANDStages.get_funil(api_token=self.app_state.api_token)
         menu = self.dropdown["menu"]
         menu.delete(0, "end")
         for opcao in novas_opcoes:
