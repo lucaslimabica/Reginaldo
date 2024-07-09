@@ -1,4 +1,4 @@
-import requests, json
+import requests, json, random
 from PypeClass import Funil
 
 # API Token e Headers
@@ -24,6 +24,12 @@ urlAtv = f"https://api.pipedrive.com/v1/activityTypes?api_token="
 urlUsers = f"https://api.pipedrive.com/v1/users?api_token="
 
 urlOrgsFields = f"https://api.pipedrive.com/v1/organizationFields?api_token="
+
+# Úteis para Templates
+# -> Eventos
+FASES_EVENTOS = "Estudo Inicial, Montagem de Proposta, Envio de Proposta, Negociação, Fecho"
+ATIVIDADES_EVENTOS = [("Listar Necessidades", "Clip"), ("Planear Evento", "Task"), ("Contacto com Fornecedores", "Call"), ("Enviar Proposta", "Email"), ("Propor Negociação", "Meeting"), ("Enviar Proposta Revisada", "Clip")]
+CAMPOS_EVENTOS = [("Tipo de Evento", "deals","Escolha", ("Privado", "Coorporativo", "Casamento")), ("Fornecedor", "deals", "Pessoa"), ("Nr de Convidados", "deals", "Numero"), ("Valor por Convidado", "deals", "Numero"), ("Data para Envio da Proposta", "deals", "Data")]
 
 # Funções
 def criar_Funil(nome: str, api_token=API_TOKEN):
@@ -93,7 +99,8 @@ def criar_Campo(nomes: str, tipo: str, sitio="deals", info=None, api_token=API_T
              "Status": "status",
              "Numero": "double",
              "Multipla Escolha": "set", 
-             "Hora": "time"}
+             "Hora": "time",
+             "Pessoa": "people"}
     for nome in lista_nomes:
         payload = {
             "name": nome,
@@ -120,13 +127,37 @@ def criar_TipoAtividade(nome, icon="task", api_token=API_TOKEN):
 def criar_User(nome, email, api_token=API_TOKEN):
     payload = {
         "name": f"{nome}",
-        "email": f"{email}",
-        "timezone_offset": "+01:00",
-        "default_currency": "EUR"
+        "email": f"{email}"
     }
     HEADERS["Authorization"] =  f"{api_token}"
     response = requests.post(url=f"{urlUsers}{api_token}", data=json.dumps(payload), headers=HEADERS)
     print(response.text, response.status_code)
+
+### Templates ###
+
+# Empresa de Eventos
+
+def template_Eventos(idFunil: int = 1, fases: str = FASES_EVENTOS, campos = CAMPOS_EVENTOS, atividades = ATIVIDADES_EVENTOS, api_token: str = API_TOKEN):
+    criar_Fases(fases, idFunil, api_token=api_token)
+    print("FASES CRIADAS")
+    for campo in campos:
+        if campo[2] == "Escolha" or campo[2] == "Multipla Escolha":
+            randomID = random.randint(5000, 6000)
+            nome, sitio, tipo, opcoes = campo
+            listaOpcoes = []
+            for opcao in opcoes:
+                listaOpcoes.append({"id": randomID, "label": opcao})
+                randomID += 1
+            infoCampo = {"options": listaOpcoes}
+            criar_Campo(nome, tipo, sitio, info=infoCampo, api_token=api_token)
+        else:
+            nome, sitio, tipo = campo
+            criar_Campo(nome, tipo, sitio, api_token=api_token)
+        print(F"Campo {nome} Criado")
+    for atividade in atividades:
+        nome, icon = atividade
+        criar_TipoAtividade(nome, icon, api_token=api_token)
+        print(f"Tipo {nome} criado")   
 
 # Criando um Funil
 
@@ -152,8 +183,9 @@ dadoscampo = {
     ]
 }
 
+template_Eventos(16, api_token="e7e7b4d64d34682c8fe269e2afd8497bf9b880f6")
 #criar_Campo("RG, CPF, Peso", "Numero")
-criar_TipoAtividade("Comer",api_token="e7e7b4d64d34682c8fe269e2afd8497bf9b880f6")
+#criar_TipoAtividade("Comer",api_token="e7e7b4d64d34682c8fe269e2afd8497bf9b880f6")
 # Criando Fases
 #fases = "R1: Estudo Inicial, R2: Ajustes e Configurações, R3: Entrega & Treinamento, Fecho, Fase de Suporte & R4"
 #criar_Fases(fases, 9)
