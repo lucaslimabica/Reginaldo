@@ -140,7 +140,7 @@ def criar_User(nome, email, api_token=API_TOKEN):
 
 # Empresa de Eventos
 
-def template_Eventos(funil: str = "Eventos", fases: str = FASES_EVENTOS, campos = CAMPOS_EVENTOS, atividades = ATIVIDADES_EVENTOS, api_token: str = API_TOKEN):
+def template(funil: str = "Eventos", fases: str = FASES_EVENTOS, campos = CAMPOS_EVENTOS, atividades = ATIVIDADES_EVENTOS, api_token: str = API_TOKEN):
     funilID = criar_Funil(funil, api_token=api_token)
     criar_Fases(fases, funilID, api_token=api_token)
     print("FASES CRIADAS")

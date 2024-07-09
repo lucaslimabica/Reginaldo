@@ -332,7 +332,7 @@ class TemplatesPage(tk.Frame):
     def usarTemplate(self):
         modelo = self.variavel_dropdown_t.get()
         if modelo == "Empresa de Eventos":
-            PipeANDStages.template_Eventos(api_token=self.app_state.api_token)
+            PipeANDStages.template(api_token=self.app_state.api_token)
 
 if __name__ == "__main__":
     app = App()
