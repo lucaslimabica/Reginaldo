@@ -125,12 +125,18 @@ class CamposPage(tk.Frame):
         self.entrada_nome_ops = tk.Entry(self, width=70)
         self.entrada_nome_ops.pack(padx=10, pady=5)
 
-        # Obter a lista de opções e configurar o dropdown
+        # Lista de Tipos
         self.opcoes = ["Texto", "Escolha", "Data", "Moeda", "Status", "Numero", "Multipla Escolha", "Hora"]
         self.variavel_dropdown_c = tk.StringVar(self)
         self.variavel_dropdown_c.set(self.opcoes[0])  # Valor padrão
         self.dropdown_c = tk.OptionMenu(self, self.variavel_dropdown_c, *self.opcoes)
         self.dropdown_c.pack(padx=10, pady=5)
+
+        self.opcoest = ["Negócio/Lead", "Pessoas", "Organizações"]
+        self.variavel_dropdown_ctipo = tk.StringVar(self)
+        self.variavel_dropdown_ctipo.set(self.opcoes[0])  # Valor padrão
+        self.dropdown_ctipo = tk.OptionMenu(self, self.variavel_dropdown_ctipo, *self.opcoest)
+        self.dropdown_ctipo.pack(padx=10, pady=5)
 
         self.botao_enviar_campo = tk.Button(self, text="Criar Campo", command=self.criarCampo)
         self.botao_enviar_campo.pack(padx=10, pady=10)
@@ -142,6 +148,7 @@ class CamposPage(tk.Frame):
     def criarCampo(self):
         nome = self.entrada_nome_campo.get()
         tipo = self.variavel_dropdown_c.get()
+        sitio = self.variavel_dropdown_ctipo.get()
         dadoscampo = {"edit_flag": True} 
         if tipo == "Escolha" or tipo == "Multipla Escolha":
             random_id = random.randint(1000, 5000) # ID das opções

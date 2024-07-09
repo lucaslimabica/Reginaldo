@@ -24,6 +24,8 @@ urlAtv = f"https://api.pipedrive.com/v1/activityTypes?api_token={API_TOKEN}"
 
 urlUsers = f"https://api.pipedrive.com/v1/users?api_token={API_TOKEN}"
 
+urlOrgsFields = f"https://api.pipedrive.com/v1/organizationFields?api_token={API_TOKEN}"
+
 # Funções
 def criar_Funil(nome: str, api_token=API_TOKEN):
     payload = {
@@ -77,8 +79,10 @@ def criar_Campo(nomes: str, tipo: str, sitio="deals", info=None, api_token=API_T
     sitio = sitio.lower()
     if sitio == "deals":
         url = urlDealsFields
-    else:
+    elif sitio == "persons":
         url = urlPersonsFields
+    else:
+        url = urlOrgsFields
 
     lista_nomes = [nome.strip() for nome in nomes.split(", ")]
     types = {"Texto": "varchar",
