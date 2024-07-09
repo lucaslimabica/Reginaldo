@@ -5,9 +5,8 @@ from PypeClass import Funil
 
 API_TOKEN = "e7e7b4d64d34682c8fe269e2afd8497bf9b880f6"
 
-headers = {
-    "Content-Type": "application/json",
-    "Authorization": API_TOKEN
+HEADERS = {
+    "Content-Type": "application/json"
 }
 
 # URLs dos EndPoints
@@ -32,9 +31,8 @@ def criar_Funil(nome: str, api_token=API_TOKEN):
         "name": nome
     }
     payload = json.dumps(payload)
-
-
-    response = requests.post(url=f"{urlPipe}{api_token}", data=payload, headers=headers)
+    HEADERS["Authorization"] =  f"{api_token}"
+    response = requests.post(url=f"{urlPipe}{api_token}", data=payload, headers=HEADERS)
     print(response.text, response.status_code)
     # response_data = response.json()
     # data = response_data["data"]
@@ -62,7 +60,8 @@ def criar_Fases(nomes: str, id_funil: int, api_token=API_TOKEN):
             "pipeline_id": id_funil,
             "order_nr": i+1
         }
-        response = requests.post(url=urlStages, data=json.dumps(payload), headers=headers)
+        HEADERS["Authorization"] =  f"{api_token}"
+        response = requests.post(url=f"{urlStages}{api_token}", data=json.dumps(payload), headers=HEADERS)
         print(f"Criação da Etapa {nome} | Sucesso: {response.status_code}")
         print(response.json())
 
@@ -80,12 +79,12 @@ def criar_Campo(nomes: str, tipo: str, sitio="deals", info=None, api_token=API_T
     """
     sitio = sitio.lower()
     if sitio == "deals":
-        url = urlDealsFields
+        url = f"{urlDealsFields}{api_token}"
     elif sitio == "persons":
-        url = urlPersonsFields
+        url = f"{urlPersonsFields}{api_token}"
     else:
-        url = urlOrgsFields
-
+        url = f"{urlOrgsFields}{api_token}"
+    HEADERS["Authorization"] =  f"{api_token}"
     lista_nomes = [nome.strip() for nome in nomes.split(", ")]
     types = {"Texto": "varchar",
              "Escolha": "enum",
@@ -105,7 +104,7 @@ def criar_Campo(nomes: str, tipo: str, sitio="deals", info=None, api_token=API_T
             for key, value in info.items():
                 payload[key] = value
 
-        response = requests.post(url, data=json.dumps(payload), headers=headers)
+        response = requests.post(url, data=json.dumps(payload), headers=HEADERS)
         print(response.json())
 
 def criar_TipoAtividade(nome, icon="task", api_token=API_TOKEN):
@@ -114,8 +113,8 @@ def criar_TipoAtividade(nome, icon="task", api_token=API_TOKEN):
         "icon_key": icon,
         "active_flag": True
     }
-
-    response = requests.post(urlAtv, data=json.dumps(payload), headers=headers)
+    HEADERS["Authorization"] =  f"{api_token}"
+    response = requests.post(url=f"{urlAtv}{api_token}", data=json.dumps(payload), headers=HEADERS)
     return response.json()
 
 def criar_User(nome, email, api_token=API_TOKEN):
@@ -125,8 +124,8 @@ def criar_User(nome, email, api_token=API_TOKEN):
         "timezone_offset": "+01:00",
         "default_currency": "EUR"
     }
-
-    response = requests.post(url=urlUsers, data=json.dumps(payload), headers=headers)
+    HEADERS["Authorization"] =  f"{api_token}"
+    response = requests.post(url=f"{urlUsers}{api_token}", data=json.dumps(payload), headers=HEADERS)
     print(response.text, response.status_code)
 
 # Criando um Funil
@@ -154,7 +153,7 @@ dadoscampo = {
 }
 
 #criar_Campo("RG, CPF, Peso", "Numero")
-
+criar_TipoAtividade("Comer",api_token="e7e7b4d64d34682c8fe269e2afd8497bf9b880f6")
 # Criando Fases
 #fases = "R1: Estudo Inicial, R2: Ajustes e Configurações, R3: Entrega & Treinamento, Fecho, Fase de Suporte & R4"
 #criar_Fases(fases, 9)
