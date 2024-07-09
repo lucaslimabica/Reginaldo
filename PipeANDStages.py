@@ -47,7 +47,6 @@ def get_funil(id="", api_token=API_TOKEN):
     data = response_data["data"]
     funis = []
     for funil in data:
-        print(f"{funil["id"]} - {funil["name"]}")
         funis.append(f"{funil["id"]} - {funil["name"]}")
     return funis
 
@@ -151,7 +150,6 @@ dadoscampo = {
     ]
 }
 
-criar_User("Jonas", "jonas39@gmail.com")
 #criar_Campo("RG, CPF, Peso", "Numero")
 
 # Criando Fases
