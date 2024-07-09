@@ -4,10 +4,11 @@ conn = sqlite3.connect("REG.db")
 cursor = conn.cursor()
 
 cursor.execute("""
-    CREATE TABLE IF NOT EXISTS log (
+    CREATE TABLE IF NOT EXISTS log_dados (
         ID_ACAO INTEGER PRIMARY KEY AUTOINCREMENT,
         ACAO TEXT NOT NULL,
-        DATA_HORA TEXT
+        DATA_HORA TEXT,
+        CLIENTE_API TEXT
     )""")
 
 conn.commit()

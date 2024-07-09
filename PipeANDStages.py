@@ -76,6 +76,7 @@ def criar_Fases(nomes: str, id_funil: int, api_token=API_TOKEN):
 
 def criar_Campo(nomes: str, tipo: str, sitio="deals", info=None, api_token=API_TOKEN):
     """
+    CRIA MAIS DE UM CAMPO POR VEZ
     ### TIPOS DOS CAMPOS
     "varchar" -> Texto
     "enum" -> Escolha Única\n
