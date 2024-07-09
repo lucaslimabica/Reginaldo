@@ -4,11 +4,18 @@ import PipeANDStages
 import re
 import random
 
+class AppState:
+    def __init__(self):
+        self.api_token = None
+
 class App(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("Reginaldo Alpha Version")
         self.configure(bg='#FFAE69')
+        self.app_state = None
+
+        self.app_state = AppState()
 
         # Container para os frames
         container = tk.Frame(self)
@@ -20,7 +27,7 @@ class App(tk.Tk):
         # Inicialização dos frames
         for F in (HomePage, EtapasFunisPage, CamposPage, AtividadesPage):
             page_name = F.__name__
-            frame = F(parent=container, controller=self)
+            frame = F(parent=container, controller=self, app_state=self.app_state)
             self.frames[page_name] = frame
             frame.grid(row=0, column=0, sticky="nsew")
 
@@ -33,12 +40,23 @@ class App(tk.Tk):
         frame.tkraise()
 
 class HomePage(tk.Frame):
-    def __init__(self, parent, controller):
+    def __init__(self, parent, controller, app_state):
         super().__init__(parent)
         self.controller = controller
+        self.app_state = app_state
         self.configure(bg='#FFAE69')
         label = tk.Label(self, text="Página Inicial", bg='#FFAE69')
         label.pack(pady=10)
+
+        labeL2 = tk.Label(self, text="Digite seu token de API:", bg= "#FFAE69")
+        labeL2.pack(pady=10, padx=10)
+
+        self.api_token_entry = tk.Entry(self)
+        self.api_token_entry.pack(pady=10, padx=10)
+
+        save_button = tk.Button(self, text="Salvar Token",
+                                command=self.save_token)
+        save_button.pack()
 
         button1 = tk.Button(self, text="Etapas e Funis", 
                             command=lambda: controller.show_frame("EtapasFunisPage"))
@@ -51,11 +69,15 @@ class HomePage(tk.Frame):
         button2.pack(pady=10)
         button3.pack(pady=10)
 
+    def save_token(self):
+        self.app_state.api_token = self.api_token_entry.get()
+
 class EtapasFunisPage(tk.Frame):
-    def __init__(self, parent, controller):
+    def __init__(self, parent, controller, app_state):
         super().__init__(parent)
         self.controller = controller
         self.configure(bg='#FFAE69')
+        self.app_state = app_state
 
         tk.Label(self, text="Nome do Funil:", bg='#FFAE69').pack(padx=10, pady=5)
         self.entrada_nome_funil = tk.Entry(self, width=70)
@@ -78,6 +100,9 @@ class EtapasFunisPage(tk.Frame):
         self.botao_enviar_etapa = tk.Button(self, text="Criar Etapa", command=self.criarEtapa)
         self.botao_enviar_etapa.pack(padx=10, pady=10)
 
+        self.token_label = tk.Label(self, text="")
+        self.token_label.pack(pady=10, padx=10)
+
         self.button = tk.Button(self, text="Voltar para a Página Inicial", 
                            command=lambda: controller.show_frame("HomePage"))
         self.button.pack(pady=10)
@@ -85,7 +110,7 @@ class EtapasFunisPage(tk.Frame):
     def criarFunil(self):
         nome = self.entrada_nome_funil.get()
         try:
-            PipeANDStages.criar_Funil(nome)
+            PipeANDStages.criar_Funil(nome, api_token=self.app_state.api_token)
             self.atualizar_dropdown()
         except Exception as e:
             messagebox.showerror("Erro", f"Erro ao fazer a requisição: {str(e)}")
@@ -95,7 +120,7 @@ class EtapasFunisPage(tk.Frame):
         nome_opcao = self.variavel_dropdown.get()
         id = self.extrair_id(nome_opcao)
         try:
-            PipeANDStages.criar_Fases(nomes, int(id))
+            PipeANDStages.criar_Fases(nomes, int(id), api_token=self.app_state.api_token)
         except Exception as e:
             messagebox.showerror("Erro", f"Erro ao fazer a requisição: {str(e)}")
 
@@ -113,11 +138,19 @@ class EtapasFunisPage(tk.Frame):
             menu.add_command(label=opcao, command=tk._setit(self.variavel_dropdown, opcao))
         self.variavel_dropdown.set(novas_opcoes[0])  # Define o valor padrão
 
+    def tkraise(self, aboveThis=None):
+        if self.app_state.api_token:
+            self.token_label.config(text=f"Token de API: {self.app_state.api_token}")
+        else:
+            self.token_label.config(text="Token de API não definido")
+        super().tkraise(aboveThis)
+
 class CamposPage(tk.Frame):
-    def __init__(self, parent, controller):
+    def __init__(self, parent, controller, app_state):
         super().__init__(parent)
         self.controller = controller
         self.configure(bg='#FFAE69')
+        self.app_state = app_state
 
         tk.Label(self, text="Criar Campo:", bg='#FFAE69').pack(padx=10, pady=5)
         self.entrada_nome_campo = tk.Entry(self, width=70)
@@ -143,9 +176,19 @@ class CamposPage(tk.Frame):
         self.botao_enviar_campo = tk.Button(self, text="Criar Campo", command=self.criarCampo)
         self.botao_enviar_campo.pack(padx=10, pady=10)
 
+        self.token_label = tk.Label(self, text="")
+        self.token_label.pack(pady=10, padx=10)
+
         self.button = tk.Button(self, text="Voltar para a Página Inicial", 
                            command=lambda: controller.show_frame("HomePage"))
         self.button.pack(pady=10)
+
+    def tkraise(self, aboveThis=None):
+        if self.app_state.api_token:
+            self.token_label.config(text=f"Token de API: {self.app_state.api_token}")
+        else:
+            self.token_label.config(text="Token de API não definido")
+        super().tkraise(aboveThis)
 
     def criarCampo(self):
         nome = self.entrada_nome_campo.get()
@@ -166,13 +209,14 @@ class CamposPage(tk.Frame):
                 random_id += 1
             dadoscampo["options"] = tmp_lista
                 
-        PipeANDStages.criar_Campo(nome, tipo, info=dadoscampo)
+        PipeANDStages.criar_Campo(nome, tipo, info=dadoscampo, api_token=self.app_state.api_token)
 
 class AtividadesPage(tk.Frame):
-    def __init__(self, parent, controller):
+    def __init__(self, parent, controller, app_state):
         super().__init__(parent)
         self.controller = controller
         self.configure(bg='#FFAE69')
+        self.app_state = app_state
 
         tk.Label(self, text="Nome da Atividade:", bg='#FFAE69').pack(padx=10, pady=5)
         self.entrada_nome_atv = tk.Entry(self, width=70)
@@ -189,14 +233,24 @@ class AtividadesPage(tk.Frame):
         self.botao_enviar_atividade = tk.Button(self, text="Criar Tipo de Atividade", command=self.criarAtv)
         self.botao_enviar_atividade.pack(padx=10, pady=10)
 
+        self.token_label = tk.Label(self, text="")
+        self.token_label.pack(pady=10, padx=10)
+
         self.button = tk.Button(self, text="Voltar para a Página Inicial", 
                            command=lambda: controller.show_frame("HomePage"))
         self.button.pack(pady=10)
 
+    def tkraise(self, aboveThis=None):
+        if self.app_state.api_token:
+            self.token_label.config(text=f"Token de API: {self.app_state.api_token}")
+        else:
+            self.token_label.config(text="Token de API não definido")
+        super().tkraise(aboveThis)
+
     def criarAtv(self):
         nome = self.entrada_nome_atv.get()
         icon = self.variavel_dropdown_i.get()
-        PipeANDStages.criar_TipoAtividade(nome, icon.lower())
+        PipeANDStages.criar_TipoAtividade(nome, icon.lower(), api_token=self.app_state.api_token)
 
 if __name__ == "__main__":
     app = App()
