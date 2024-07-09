@@ -44,9 +44,12 @@ class HomePage(tk.Frame):
                             command=lambda: controller.show_frame("EtapasFunisPage"))
         button2 = tk.Button(self, text="Campos", 
                             command=lambda: controller.show_frame("CamposPage"))
+        button3 = tk.Button(self, text="Tipos de Atividade", 
+                            command=lambda: controller.show_frame("AtividadesPage"))
 
         button1.pack(pady=10)
         button2.pack(pady=10)
+        button3.pack(pady=10)
 
 class EtapasFunisPage(tk.Frame):
     def __init__(self, parent, controller):
@@ -165,6 +168,31 @@ class CamposPage(tk.Frame):
             dadoscampo["options"] = tmp_lista
                 
         PipeANDStages.criar_Campo(nome, tipo, info=dadoscampo)
+
+class AtividadesPage(tk.Frame):
+    def __init__(self, parent, controller):
+        super().__init__(parent)
+        self.controller = controller
+        self.configure(bg='#FFAE69')
+
+        tk.Label(self, text="Nome da Atividade:", bg='#FFAE69').pack(padx=10, pady=5)
+        self.entrada_nome_atv = tk.Entry(self, width=70)
+        self.entrada_nome_atv.pack(padx=10, pady=5)
+
+        # Lista de Ícones
+        tk.Label(self, text="Icon:", bg='#FFAE69').pack(padx=10, pady=5)
+        self.opcoesi = ["Call", "Meeting", "Calendar", "Arrow Down", "Email", "Smartphone", "Clip", "Bell"]
+        self.variavel_dropdown_i = tk.StringVar(self)
+        self.variavel_dropdown_i.set(self.opcoesi[0])  # Valor padrão
+        self.dropdown_i = tk.OptionMenu(self, self.variavel_dropdown_i, *self.opcoesi)
+        self.dropdown_i.pack(padx=10, pady=5)
+
+        self.botao_enviar_atividade = tk.Button(self, text="Criar Tipo de Atividade", command=self.criarAtv)
+        self.botao_enviar_atividade.pack(padx=10, pady=10)
+
+        self.button = tk.Button(self, text="Voltar para a Página Inicial", 
+                           command=lambda: controller.show_frame("HomePage"))
+        self.button.pack(pady=10)
 
 if __name__ == "__main__":
     app = App()
