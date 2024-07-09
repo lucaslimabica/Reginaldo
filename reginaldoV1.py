@@ -25,7 +25,7 @@ class App(tk.Tk):
         self.frames = {}
 
         # Inicialização dos frames
-        for F in (HomePage, EtapasFunisPage, CamposPage, AtividadesPage, UsersPage):
+        for F in (HomePage, EtapasFunisPage, CamposPage, AtividadesPage, UsersPage, TemplatesPage):
             page_name = F.__name__
             frame = F(parent=container, controller=self, app_state=self.app_state)
             self.frames[page_name] = frame
@@ -66,11 +66,14 @@ class HomePage(tk.Frame):
                             command=lambda: controller.show_frame("AtividadesPage"))
         button4 = tk.Button(self, text="Usuários", 
                             command=lambda: controller.show_frame("UsersPage"))
+        button5 =tk.Button(self, text="Galeria de Templates", 
+                            command=lambda: controller.show_frame("TemplatesPage"))
 
         button1.pack(pady=10)
         button2.pack(pady=10)
         button3.pack(pady=10)
         button4.pack(pady=10)
+        button5.pack(pady=10)
 
     def save_token(self):
         self.app_state.api_token = self.api_token_entry.get()
@@ -294,6 +297,42 @@ class UsersPage(tk.Frame):
         nome = self.entrada_nome_user.get()
         email = self.entrada_email_user.get()
         PipeANDStages.criar_User(nome, email, api_token=self.app_state.api_token)
+
+class TemplatesPage(tk.Frame):
+    def __init__(self, parent, controller, app_state):
+        super().__init__(parent)
+        self.controller = controller
+        self.configure(bg='#FFAE69')
+        self.app_state = app_state
+
+        tk.Label(self, text="Template:", bg='#FFAE69').pack(padx=10, pady=5)
+        self.opcoest = ["Empresa de Eventos", "Clínica Dentária", "Escritório de Arquitetura", "Cursos Digitais"]
+        self.variavel_dropdown_t = tk.StringVar(self)
+        self.variavel_dropdown_t.set(self.opcoest[0])  # Valor padrão
+        self.dropdown_t = tk.OptionMenu(self, self.variavel_dropdown_t, *self.opcoest)
+        self.dropdown_t.pack(padx=10, pady=5)
+
+        self.botao_enviar_template = tk.Button(self, text="Criar Pipedrive", command=self.usarTemplate)
+        self.botao_enviar_template.pack(padx=10, pady=10)
+
+        self.token_label = tk.Label(self, text="")
+        self.token_label.pack(pady=10, padx=10)
+
+        self.button = tk.Button(self, text="Voltar para a Página Inicial", 
+                           command=lambda: controller.show_frame("HomePage"))
+        self.button.pack(pady=10)
+
+    def tkraise(self, aboveThis=None):
+        if self.app_state.api_token:
+            self.token_label.config(text=f"Token de API: {self.app_state.api_token}")
+        else:
+            self.token_label.config(text="Token de API não definido")
+        super().tkraise(aboveThis)
+
+    def usarTemplate(self):
+        modelo = self.variavel_dropdown_t.get()
+        if modelo == "Empresa de Eventos":
+            PipeANDStages.template_Eventos(api_token=self.app_state.api_token)
 
 if __name__ == "__main__":
     app = App()

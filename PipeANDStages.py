@@ -1,4 +1,4 @@
-import requests, json, random
+import requests, json, random, inspect
 from PypeClass import Funil
 
 # API Token e Headers
@@ -40,10 +40,13 @@ def criar_Funil(nome: str, api_token=API_TOKEN):
     HEADERS["Authorization"] =  f"{api_token}"
     response = requests.post(url=f"{urlPipe}{api_token}", data=payload, headers=HEADERS)
     print(response.text, response.status_code)
-    # response_data = response.json()
-    # data = response_data["data"]
-    # return data["id"], data["name"]
-    return response.json()
+    if response.status_code == 201:
+        response_data = response.json()
+        print(response_data, response.status_code)
+        data = response_data["data"]
+        return data["id"]
+    print(response.json())
+    return response.status_code
 
 def get_funil(id="", api_token=API_TOKEN):
     response = requests.get(url=f"https://api.pipedrive.com/v1/pipelines/{id}?api_token={api_token}")
@@ -137,8 +140,9 @@ def criar_User(nome, email, api_token=API_TOKEN):
 
 # Empresa de Eventos
 
-def template_Eventos(idFunil: int = 1, fases: str = FASES_EVENTOS, campos = CAMPOS_EVENTOS, atividades = ATIVIDADES_EVENTOS, api_token: str = API_TOKEN):
-    criar_Fases(fases, idFunil, api_token=api_token)
+def template_Eventos(funil: str = "Eventos", fases: str = FASES_EVENTOS, campos = CAMPOS_EVENTOS, atividades = ATIVIDADES_EVENTOS, api_token: str = API_TOKEN):
+    funilID = criar_Funil(funil, api_token=api_token)
+    criar_Fases(fases, funilID, api_token=api_token)
     print("FASES CRIADAS")
     for campo in campos:
         if campo[2] == "Escolha" or campo[2] == "Multipla Escolha":
@@ -156,6 +160,7 @@ def template_Eventos(idFunil: int = 1, fases: str = FASES_EVENTOS, campos = CAMP
         print(F"Campo {nome} Criado")
     for atividade in atividades:
         nome, icon = atividade
+        icon = icon.lower()
         criar_TipoAtividade(nome, icon, api_token=api_token)
         print(f"Tipo {nome} criado")   
 
@@ -183,7 +188,7 @@ dadoscampo = {
     ]
 }
 
-template_Eventos(16, api_token="e7e7b4d64d34682c8fe269e2afd8497bf9b880f6")
+#template_Eventos(api_token="e7e7b4d64d34682c8fe269e2afd8497bf9b880f6")
 #criar_Campo("RG, CPF, Peso", "Numero")
 #criar_TipoAtividade("Comer",api_token="e7e7b4d64d34682c8fe269e2afd8497bf9b880f6")
 # Criando Fases
