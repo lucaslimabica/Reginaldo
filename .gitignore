@@ -1,1 +1,20 @@
-*.pyc
+# Ignore the Python cache directories
+__pycache__/
+*.py[cod]
+
+# Ignore Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Ignore virtual environment directories
+venv/
+.venv/
+
+# Ignore environment variable files
+.env
+
+# Ignore compiled libraries
+*.so
+
+# Ignore logs and databases
+*.log
+*.sqlite3
