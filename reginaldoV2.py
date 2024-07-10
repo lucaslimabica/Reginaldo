@@ -402,8 +402,9 @@ class APIsPage(tk.Frame):
         nome = self.entrada_nome_api.get()
         token = self.entrada_token_api.get()
         REGistador001.salvarAPI(api=token, nome=nome)
+        self.tkraise()
         self.selecionarAPI(modo="Criacao")
-        REGistador001.fazer_LOG(acao=f"Criação de API. Cliente: {nome}", api=self.app_state.api_token)
+        REGistador001.fazer_LOG(acao=f"Criacao de API. Cliente: {nome}", api=self.app_state.api_token)
         self.atualizar_dropdown()
 
     def selecionarAPI(self, modo="Selecao"):
@@ -412,6 +413,7 @@ class APIsPage(tk.Frame):
         else:
             nome = self.entrada_nome_api.get()
         self.app_state.api_token = REGistador001.getAPI(nome)
+        self.tkraise()
 
     def atualizar_dropdown(self):
         novas_opcoes = REGistador001.listaAPIs()

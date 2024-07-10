@@ -65,11 +65,11 @@ def criarBaseLog(caminho: str = BASE_LOG):
         file.write(json.dumps(base, indent=4))
     print("Base criada com sucesso!")
 
-def fazer_LOG(acao: str, api: str = "API Não Disponibilizada",caminho: str = BASE_LOG):
+def fazer_LOG(acao: str, api: str = "API Nao Disponibilizada",caminho: str = BASE_LOG):
     with open(caminho, "r+") as file:
         base = json.load(file)
         id_acao = f"{random.randint(0, 1000)}{random.choice("abcdefghijklmnopqrstuvwxyz")}{random.randint(0, 1000)}"
-        base["Log De Dados"].append((f"{acao}. API: {api}. ID da Ação: {id_acao}. Data e Hora {datetime.datetime.now()}."))
+        base["Log De Dados"].append((f"{acao}. API: {api}. ID da Acao: {id_acao}. Data e Hora {datetime.datetime.now()}."))
         file.seek(0)
         file.write(json.dumps(base, indent=4))
         file.truncate()
@@ -81,7 +81,7 @@ def criarBaseAPI(caminho: str = BASE_API):
         file.write(json.dumps(base, indent=4))
     print("Base criada com sucesso!")
 
-def salvarAPI(api: str, nome: str = "Cliente Não Identificado", caminho: str = BASE_API):
+def salvarAPI(api: str, nome: str = "Cliente Nao Identificado", caminho: str = BASE_API):
     with open(caminho, "r+") as file:
         base = json.load(file)
         base["Lista APIs"].append({"Nome": nome, "API": api})
@@ -124,18 +124,3 @@ template = {
         "atividades": [("Verficar Data", "task"), ("FU: Ligação", "call")]
     }
 }
-
-
-
-# Adicionando o template
-#addTemplate(caminho_arquivo, template)
-
-# Obtendo todos os templates
-#templates = getTemplate(caminho_arquivo)
-#rint("Templates:", templates)
-
-# Obtendo um template específico
-#template_clinicas = getTemplate(BASE_TEMPLATES, "Clínicas")
-#print("Template Clínicas:", template_clinicas)
-
-#editarTemplate(caminho_arquivo, "Clínicas", novo_template)
