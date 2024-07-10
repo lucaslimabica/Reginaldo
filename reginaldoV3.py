@@ -16,7 +16,7 @@ class App(tk.Tk):
         super().__init__()
         self.title("Reginaldo Beta Version")
         self.app_state = None
-
+        self.geometry("800x600+100+100")
         self.app_state = AppState()
 
         style = ttk.Style(self)
@@ -29,9 +29,10 @@ class App(tk.Tk):
         style.configure('TButton', font=('@Microsft YaHei UI', 12), padding=6)
 
         # Container para os frames
-        container = ttk.Frame(self)
-        container.pack(side="top", fill="both", expand=False)
-
+        container = ttk.Frame(self, style='TFrame')
+        container.pack(fill="both", expand=True)
+        container.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+        self.configure(bg='#BDECB6')
         # Dicionário para armazenar os frames
         self.frames = {}
 
@@ -41,7 +42,7 @@ class App(tk.Tk):
             frame = F(parent=container, controller=self, app_state=self.app_state)
             self.frames[page_name] = frame
             frame.grid(row=0, column=0, sticky="nsew")
-
+        
         # Mostrar a página inicial
         self.show_frame("HomePage")
 
@@ -98,22 +99,25 @@ class EtapasFunisPage(ttk.Frame):
         self.app_state = app_state
 
         ttk.Label(self, text="Nome do Funil:").pack(padx=10, pady=5)
-        self.entrada_nome_funil = ttk.Entry(self, width=70)
+        self.entrada_nome_funil = ttk.Entry(self, width=50)
         self.entrada_nome_funil.pack(padx=10, pady=5)
 
         self.botao_enviar_funil = ttk.Button(self, text="Criar Funil", command=self.criarFunil)
         self.botao_enviar_funil.pack(padx=10, pady=10)
 
         ttk.Label(self, text="Etapas:").pack(padx=10, pady=5)
-        self.entrada_nome_etapa = ttk.Entry(self, width=70)
+        self.entrada_nome_etapa = ttk.Entry(self, width=50)
         self.entrada_nome_etapa.pack(padx=10, pady=5)
+
+        self.selecao_funil = ttk.Label(self, text="Selecione um Funil")
+        self.selecao_funil.pack(pady=10, padx=10)
 
         # Adicionando um Combobox (dropdown)
         self.variavel_dropdown = tk.StringVar()
         self.dropdown = ttk.Combobox(self, textvariable=self.variavel_dropdown, values=PipeANDStages.get_funil(api_token=self.app_state.api_token), style='TCombobox')
         self.dropdown.pack(pady=5, padx=10)
 
-        self.button_atl = ttk.Button(self, text="Atualizar Dropdown", command=self.atualizar_dropdown)
+        self.button_atl = ttk.Button(self, text="Atualizar Funis", command=self.atualizar_dropdown)
         self.button_atl.pack(pady=10)
 
         self.botao_enviar_etapa = ttk.Button(self, text="Criar Etapa", command=self.criarEtapa)
