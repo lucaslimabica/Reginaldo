@@ -1,102 +1,40 @@
-import tkinter as tk
-from tkinter import ttk
+from tkinter import *
+from tkinter import font
 
-class App(tk.Tk):
-    def __init__(self):
-        super().__init__()
-        self.title("Reginaldo Beta Version")
-        self.configure(bg='#FFAE69')
-        self.app_state = None
+root = Tk()
+root.title('Font Families')
+fonts=list(font.families())
+fonts.sort()
 
-        container = ttk.Frame(self)
-        container.pack(fill='both', expand=True)
+def populate(frame):
+    '''Put in the fonts'''
+    listnumber = 1
+    for i, item in enumerate(fonts):
+        label = "listlabel" + str(listnumber)
+        label = Label(frame,text=item,font=(item, 16))
+        label.grid(row=i)
+        label.bind("<Button-1>",lambda e,item=item:copy_to_clipboard(item))
+        listnumber += 1
 
-        self.frames = {}
-        # Inicialização dos frames
-        for F in (HomePage, EtapasFunisPage, CamposPage, AtividadesPage, UsersPage, TemplatesPage, APIsPage):
-            page_name = F.__name__
-            frame = F(parent=container, controller=self, app_state=self.app_state)
-            self.frames[page_name] = frame
-            frame.grid(row=0, column=0, sticky="nsew")
+def copy_to_clipboard(item):
+    root.clipboard_clear()
+    root.clipboard_append("font=('" + item.lstrip('@') + "', 12)")
 
-        self.show_frame("HomePage")
+def onFrameConfigure(canvas):
+    '''Reset the scroll region to encompass the inner frame'''
+    canvas.configure(scrollregion=canvas.bbox("all"))
 
-    def show_frame(self, page_name):
-        frame = self.frames[page_name]
-        frame.tkraise()
+canvas = Canvas(root, borderwidth=0, background="#ffffff")
+frame = Frame(canvas, background="#ffffff")
+vsb = Scrollbar(root, orient="vertical", command=canvas.yview)
+canvas.configure(yscrollcommand=vsb.set)
 
-class HomePage(ttk.Frame):
-    def __init__(self, parent, controller, app_state):
-        super().__init__(parent)
-        self.controller = controller
-        self.app_state = app_state
-        self.configure(style='TFrame', padding=20)
-        label = ttk.Label(self, text="Página Inicial", style='TLabel')
-        label.pack(pady=10)
+vsb.pack(side="right", fill="y")
+canvas.pack(side="left", fill="both", expand=True)
+canvas.create_window((4,4), window=frame, anchor="nw")
 
-        label2 = ttk.Label(self, text="Digite seu token de API:", style='TLabel')
-        label2.pack(pady=10, padx=10)
+frame.bind("<Configure>", lambda event, canvas=canvas: onFrameConfigure(canvas))
 
-        entry = ttk.Entry(self, style='TEntry')
-        entry.pack(pady=5, padx=10)
+populate(frame)
 
-        button = ttk.Button(self, text="Enviar", style='TButton')
-        button.pack(pady=5)
-
-class EtapasFunisPage(ttk.Frame):
-    def __init__(self, parent, controller, app_state):
-        super().__init__(parent)
-        self.controller = controller
-        self.app_state = app_state
-        self.configure(style='TFrame', padding=20)
-        label = ttk.Label(self, text="Etapas Funis", style='TLabel')
-        label.pack(pady=10)
-
-class CamposPage(ttk.Frame):
-    def __init__(self, parent, controller, app_state):
-        super().__init__(parent)
-        self.controller = controller
-        self.app_state = app_state
-        self.configure(style='TFrame', padding=20)
-        label = ttk.Label(self, text="Campos", style='TLabel')
-        label.pack(pady=10)
-
-class AtividadesPage(ttk.Frame):
-    def __init__(self, parent, controller, app_state):
-        super().__init__(parent)
-        self.controller = controller
-        self.app_state = app_state
-        self.configure(style='TFrame', padding=20)
-        label = ttk.Label(self, text="Atividades", style='TLabel')
-        label.pack(pady=10)
-
-class UsersPage(ttk.Frame):
-    def __init__(self, parent, controller, app_state):
-        super().__init__(parent)
-        self.controller = controller
-        self.app_state = app_state
-        self.configure(style='TFrame', padding=20)
-        label = ttk.Label(self, text="Usuários", style='TLabel')
-        label.pack(pady=10)
-
-class TemplatesPage(ttk.Frame):
-    def __init__(self, parent, controller, app_state):
-        super().__init__(parent)
-        self.controller = controller
-        self.app_state = app_state
-        self.configure(style='TFrame', padding=20)
-        label = ttk.Label(self, text="Templates", style='TLabel')
-        label.pack(pady=10)
-
-class APIsPage(ttk.Frame):
-    def __init__(self, parent, controller, app_state):
-        super().__init__(parent)
-        self.controller = controller
-        self.app_state = app_state
-        self.configure(style='TFrame', padding=20)
-        label = ttk.Label(self, text="APIs", style='TLabel')
-        label.pack(pady=10)
-
-if __name__ == "__main__":
-    app = App()
-    app.mainloop()
+root.mainloop()
