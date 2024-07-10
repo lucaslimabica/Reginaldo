@@ -4,6 +4,7 @@ import json, datetime, random
 # Caminho do arquivo JSON
 BASE_TEMPLATES = "C:/Users/lusca/Scripts/Scripts do Pipes/REG001.json"
 BASE_LOG = "C:/Users/lusca/Scripts/Scripts do Pipes/REG_LOG001.json"
+BASE_API = "C:/Users/lusca/Scripts/Scripts do Pipes/REG_API001.json" 
 
 # Funções de Templates
 def criarBase(caminho: str = BASE_TEMPLATES):
@@ -72,9 +73,44 @@ def fazer_LOG(acao: str, api: str = "API Não Disponibilizada",caminho: str = BA
         file.seek(0)
         file.write(json.dumps(base, indent=4))
         file.truncate()
-    print("Ação salva com sucesso!")
 
-fazer_LOG("testando log de dados mais uma vez", "local")
+# Registo de APIs
+def criarBaseAPI(caminho: str = BASE_API):
+    base = {"Lista APIs": []}
+    with open(caminho, "w") as file:
+        file.write(json.dumps(base, indent=4))
+    print("Base criada com sucesso!")
+
+def salvarAPI(api: str, nome: str = "Cliente Não Identificado", caminho: str = BASE_API):
+    with open(caminho, "r+") as file:
+        base = json.load(file)
+        base["Lista APIs"].append({"Nome": nome, "API": api})
+        file.seek(0)
+        file.write(json.dumps(base, indent=4))
+        file.truncate()
+
+def listaAPIs(caminho: str = BASE_API):
+    "Nomes de cada cliente"
+    with open(caminho, "r") as file:
+        lista = []
+        base = json.load(file)
+        for api in base["Lista APIs"]:
+            lista.append(api["Nome"])
+        return lista
+    
+def getAPI(nome:str, caminho: str = BASE_API):
+    "Retorna pelo nome a API de cada cliente"
+    with open(caminho, "r") as file:
+        base = json.load(file)
+        if nome:
+            for cliente in base["Lista APIs"]:
+                if cliente["Nome"] == nome:
+                    return cliente["API"]
+            return "API Inválida"
+        else:
+            return "e7e7b4d64d34682c8fe269e2afd8497bf9b880f6"
+        
+
 # Criando a base de dados
 #criarBase(caminho_arquivo)
 

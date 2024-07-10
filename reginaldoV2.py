@@ -3,7 +3,7 @@ from tkinter import messagebox
 import PipeANDStages
 import re
 import random
-import REGistador001, REGistador 
+import REGistador001 
 
 
 class AppState:
@@ -123,7 +123,7 @@ class EtapasFunisPage(tk.Frame):
         try:
             PipeANDStages.criar_Funil(nome, api_token=self.app_state.api_token)
             self.atualizar_dropdown()
-            REGistador.fazer_LOG("Criação de Funil", self.app_state.api_token)
+            REGistador001.fazer_LOG(f"Criação de Funil {nome}", self.app_state.api_token)
         except Exception as e:
             messagebox.showerror("Erro", f"Erro ao fazer a requisição: {str(e)}")
 
@@ -133,7 +133,7 @@ class EtapasFunisPage(tk.Frame):
         id = self.extrair_id(nome_opcao)
         try:
             PipeANDStages.criar_Fases(nomes, int(id), api_token=self.app_state.api_token)
-            REGistador.fazer_LOG(f"Criação das Etapas: {nomes} (id:{id})", self.app_state.api_token)
+            REGistador001.fazer_LOG(f"Criação das Etapas: {nomes} (id:{id})", self.app_state.api_token)
         except Exception as e:
             messagebox.showerror("Erro", f"Erro ao fazer a requisição: {str(e)}")
 
@@ -223,7 +223,7 @@ class CamposPage(tk.Frame):
             dadoscampo["options"] = tmp_lista
                 
         PipeANDStages.criar_Campo(nome, tipo, info=dadoscampo, api_token=self.app_state.api_token)
-        REGistador.fazer_LOG(f"Criação dos Campos: {nome}", self.app_state.api_token)
+        REGistador001.fazer_LOG(f"Criação dos Campos: {nome}", self.app_state.api_token)
 
 class AtividadesPage(tk.Frame):
     def __init__(self, parent, controller, app_state):
@@ -302,7 +302,7 @@ class UsersPage(tk.Frame):
         nome = self.entrada_nome_user.get()
         email = self.entrada_email_user.get()
         PipeANDStages.criar_User(nome, email, api_token=self.app_state.api_token)
-        REGistador.fazer_LOG(f"Criação de User {email}", self.app_state.api_token)
+        REGistador001.fazer_LOG(f"Criação de User {email}", self.app_state.api_token)
 
 class TemplatesPage(tk.Frame):
     def __init__(self, parent, controller, app_state):
@@ -346,7 +346,7 @@ class TemplatesPage(tk.Frame):
                                 atividades=model["atividades"],
                                 api_token=self.app_state.api_token
                             )
-        REGistador.fazer_LOG(acao=f"Uso de Template: {nome_modelo}", api=self.app_state.api_token)
+        REGistador001.fazer_LOG(acao=f"Uso de Template: {nome_modelo}", api=self.app_state.api_token)
         
 
 if __name__ == "__main__":
