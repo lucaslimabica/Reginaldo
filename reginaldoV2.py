@@ -312,7 +312,7 @@ class TemplatesPage(tk.Frame):
         self.app_state = app_state
 
         tk.Label(self, text="Template:", bg='#FFAE69').pack(padx=10, pady=5)
-        self.opcoest = ["Empresa de Eventos", "Clínica", "Escritório de Arquitetura", "Cursos Digitais"]
+        self.opcoest = REGistador001.listaTemplates()
         self.variavel_dropdown_t = tk.StringVar(self)
         self.variavel_dropdown_t.set(self.opcoest[0])  # Valor padrão
         self.dropdown_t = tk.OptionMenu(self, self.variavel_dropdown_t, *self.opcoest)
@@ -336,20 +336,18 @@ class TemplatesPage(tk.Frame):
         super().tkraise(aboveThis)
 
     def usarTemplate(self):
-        modelo = self.variavel_dropdown_t.get()
-        if modelo == "Empresa de Eventos":
-            modelpai = REGistador001.getTemplate(nome="Clínicas")
-            model = modelpai["payload"]
-            PipeANDStages.template(
-                                    funil=model["funil"],
-                                    fases=model["fases"],
-                                    campos=model["campos"],
-                                    atividades=model["atividades"],
-                                    api_token=self.app_state.api_token
-                                )
-            REGistador.fazer_LOG(acao=f"Uso de Template: {modelo}", api=self.app_state.api_token)
-        else:
-            pass
+        nome_modelo = self.variavel_dropdown_t.get()
+        modelpai = REGistador001.getTemplate(nome=nome_modelo)
+        model = modelpai["payload"]
+        PipeANDStages.template(
+                                funil=model["funil"],
+                                fases=model["fases"],
+                                campos=model["campos"],
+                                atividades=model["atividades"],
+                                api_token=self.app_state.api_token
+                            )
+        REGistador.fazer_LOG(acao=f"Uso de Template: {nome_modelo}", api=self.app_state.api_token)
+        
 
 if __name__ == "__main__":
     app = App()

@@ -3,6 +3,7 @@ import json
 
 # Caminho do arquivo JSON
 BASE_TEMPLATES = "C:/Users/lusca/Scripts/Scripts do Pipes/REG001.json"
+BASE_LOG = "C:/Users/lusca/Scripts/Scripts do Pipes/REG_LOG001.json"
 
 def criarBase(caminho: str = BASE_TEMPLATES):
     base = {"Pipedrive_Templates": []}
