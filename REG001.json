@@ -32,6 +32,40 @@
                     ]
                 ]
             }
+        },
+        {
+            "nome": "WooCommerce",
+            "payload": {
+                "funil": "Loja Online",
+                "fases": "Compra Realizada, Envio de Follow Ups, Visita Confirmada, Visita Realizada",
+                "campos": [
+                    [
+                        "Produto",
+                        "deals",
+                        "Texto"
+                    ],
+                    [
+                        "M\u00e9todo de Pagamento",
+                        "deals",
+                        "Escolha",
+                        [
+                            "MBWay",
+                            "Multibanco"
+                        ]
+                    ],
+                    [
+                        "N\u00famero de Produtos Comprados",
+                        "persons",
+                        "Numero"
+                    ]
+                ],
+                "atividades": [
+                    [
+                        "Marcar Visita",
+                        "task"
+                    ]
+                ]
+            }
         }
     ]
 }

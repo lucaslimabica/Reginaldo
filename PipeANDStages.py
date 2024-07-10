@@ -77,6 +77,13 @@ def criar_Fases(nomes: str, id_funil: int, api_token=API_TOKEN):
 
 def criar_Campo(nomes: str, tipo: str, sitio="deals", info=None, api_token=API_TOKEN):
     """
+    Parâmetros:
+
+    - String com os nomes\n
+    - String com o tipo de todos os campos\n
+    - String com o local dos campos (deals, persons, orgs)\n
+    - Dicict com infos adicionais, como grupo ou descrição\n
+    -------------------------------------
     CRIA MAIS DE UM CAMPO POR VEZ
     ### TIPOS DOS CAMPOS
     "varchar" -> Texto
@@ -143,6 +150,13 @@ def criar_User(nome, email, api_token=API_TOKEN):
 # Empresa de Eventos
 
 def template(funil: str = "Eventos", fases: str = FASES_EVENTOS, campos: list[tuple[str]] = CAMPOS_EVENTOS, atividades: list[tuple[str]] = ATIVIDADES_EVENTOS, api_token: str = API_TOKEN):
+    """
+    Parâmetros:
+    - String com o nome do Funil\n
+    - String com as fases\n
+    - Lista de tuplas para os campos -> [(nome, sitio, tipo, (opção1, opção2))]\n
+    - Lista de tuplas para as atividades -> [(nome, icon)]
+    """
     funilID = criar_Funil(funil, api_token=api_token)
     criar_Fases(fases, funilID, api_token=api_token)
     print("FASES CRIADAS")

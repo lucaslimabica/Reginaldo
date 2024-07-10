@@ -22,6 +22,18 @@ def addTemplate(template: dict, caminho: str = BASE_TEMPLATES):
         file.truncate()
     print("Template adicionado com sucesso!")
 
+def criarTemplate(nome, funil, fases, campos: list[tuple], atividades: list[tuple]):
+    template = {
+        "nome": nome, 
+        "payload": {
+            "funil": funil,
+            "fases": fases,
+            "campos": campos,
+            "atividades": atividades
+        }
+    }
+    addTemplate(template)
+
 def getTemplate(caminho: str = BASE_TEMPLATES, nome: str = "Vendas"):
     with open(caminho, "r") as file:
         base = json.load(file)
@@ -110,17 +122,23 @@ def getAPI(nome:str, caminho: str = BASE_API):
         else:
             return "e7e7b4d64d34682c8fe269e2afd8497bf9b880f6"
         
-
-# Criando a base de dados
-#criarBase(caminho_arquivo)
-
-# Exemplo de template
-template = {
-    "nome": "Clínicas",
-    "payload": {
-        "funil": "Consultas",
-        "fases": "Consulta Agendada, Consulta Confirmada, Consulta Realizada, Pós-Consulta",
-        "campos": [("Data Agendada", "deals", "Data"), ("Método de Pagamento", "deals", "Escolha", ("Dinheiro", "Multibanco"))],
-        "atividades": [("Verficar Data", "task"), ("FU: Ligação", "call")]
-    }
-}
+#criarTemplate(
+#    nome="WooCommerce",
+#    funil="Loja Online",
+#    fases="Compra Realizada, Envio de Follow Ups, Visita Confirmada, Visita Realizada",
+#    campos=[("Produto", "deals", "Texto"), ("Método de Pagamento", "deals", "Escolha", ("MBWay", "Multibanco")), ("Número de Produtos Comprados", "persons", "Numero")],
+#    atividades=[("Marcar Visita", "task")]
+#)
+#
+#template = getTemplate(nome="WooCommerce")
+#print(template)
+## Exemplo de template
+#template = {
+#    "nome": "Clínicas",
+#    "payload": {
+#        "funil": "Consultas",
+#        "fases": "Consulta Agendada, Consulta Confirmada, Consulta Realizada, Pós-Consulta",
+#        "campos": [("Data Agendada", "deals", "Data"), ("Método de Pagamento", "deals", "Escolha", ("Dinheiro", "Multibanco"))],
+#        "atividades": [("Verficar Data", "task"), ("FU: Ligação", "call")]
+#    }
+#}
