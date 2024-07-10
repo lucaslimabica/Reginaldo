@@ -27,7 +27,7 @@ class App(tk.Tk):
         self.frames = {}
 
         # Inicialização dos frames
-        for F in (HomePage, EtapasFunisPage, CamposPage, AtividadesPage, UsersPage, TemplatesPage):
+        for F in (HomePage, EtapasFunisPage, CamposPage, AtividadesPage, UsersPage, TemplatesPage, APIsPage):
             page_name = F.__name__
             frame = F(parent=container, controller=self, app_state=self.app_state)
             self.frames[page_name] = frame
@@ -70,12 +70,15 @@ class HomePage(tk.Frame):
                             command=lambda: controller.show_frame("UsersPage"))
         button5 =tk.Button(self, text="Galeria de Templates", 
                             command=lambda: controller.show_frame("TemplatesPage"))
+        button6 =tk.Button(self, text="Galeria de APIs", 
+                            command=lambda: controller.show_frame("APIsPage"))
 
         button1.pack(pady=10)
         button2.pack(pady=10)
         button3.pack(pady=10)
         button4.pack(pady=10)
         button5.pack(pady=10)
+        button6.pack(pady=10)
 
     def save_token(self):
         self.app_state.api_token = self.api_token_entry.get()
@@ -347,6 +350,76 @@ class TemplatesPage(tk.Frame):
                                 api_token=self.app_state.api_token
                             )
         REGistador001.fazer_LOG(acao=f"Uso de Template: {nome_modelo}", api=self.app_state.api_token)
+
+class APIsPage(tk.Frame):
+    def __init__(self, parent, controller, app_state):
+        super().__init__(parent)
+        self.controller = controller
+        self.configure(bg='#FFAE69')
+        self.app_state = app_state
+
+        tk.Label(self, text="Adicione uma Nova API:", bg='#FFAE69').pack(padx=10, pady=5)
+
+        tk.Label(self, text="Nome da API:", bg='#FFAE69').pack(padx=10, pady=5)
+        self.entrada_nome_api = tk.Entry(self, width=70)
+        self.entrada_nome_api.pack(padx=10, pady=5)
+
+        tk.Label(self, text="Token da API:", bg='#FFAE69').pack(padx=10, pady=5)
+        self.entrada_token_api = tk.Entry(self, width=70)
+        self.entrada_token_api.pack(padx=10, pady=5)
+
+        # Criar API
+        self.botao_criar_api = tk.Button(self, text="Salvar API", command=self.salvarAPI)
+        self.botao_criar_api.pack(padx=10, pady=10)
+
+        # Lista de APIs
+        tk.Label(self, text="Selecione a API", bg='#FFAE69').pack(padx=10, pady=5)
+        self.opcoesapi = REGistador001.listaAPIs()
+        self.variavel_dropdown_api = tk.StringVar(self)
+        self.variavel_dropdown_api.set(self.opcoesapi[0])  # Valor padrão
+        self.dropdown_api = tk.OptionMenu(self, self.variavel_dropdown_api, *self.opcoesapi)
+        self.dropdown_api.pack(padx=10, pady=5)
+
+        # Selecionar API
+        self.botao_selecionar_api = tk.Button(self, text="Selecionar API", command=self.selecionarAPI)
+        self.botao_selecionar_api.pack(padx=10, pady=10)
+
+        self.token_label = tk.Label(self, text="")
+        self.token_label.pack(pady=10, padx=10)
+
+        self.button = tk.Button(self, text="Voltar para a Página Inicial", 
+                           command=lambda: controller.show_frame("HomePage"))
+        self.button.pack(pady=10)
+
+    def tkraise(self, aboveThis=None):
+        if self.app_state.api_token:
+            self.token_label.config(text=f"Token de API: {self.app_state.api_token}")
+        else:
+            self.token_label.config(text="Token de API não definido")
+        super().tkraise(aboveThis)
+
+    def salvarAPI(self):
+        nome = self.entrada_nome_api.get()
+        token = self.entrada_token_api.get()
+        REGistador001.salvarAPI(api=token, nome=nome)
+        self.selecionarAPI(modo="Criacao")
+        REGistador001.fazer_LOG(acao=f"Criação de API. Cliente: {nome}", api=self.app_state.api_token)
+        self.atualizar_dropdown()
+
+    def selecionarAPI(self, modo="Selecao"):
+        if modo == "Selecao":
+            nome = self.variavel_dropdown_api.get()
+        else:
+            nome = self.entrada_nome_api.get()
+        self.app_state.api_token = REGistador001.getAPI(nome)
+
+    def atualizar_dropdown(self):
+        novas_opcoes = REGistador001.listaAPIs()
+        menu = self.dropdown_api["menu"]
+        menu.delete(0, "end")
+        for opcao in novas_opcoes:
+            menu.add_command(label=opcao, command=tk._setit(self.variavel_dropdown_api, opcao))
+        self.variavel_dropdown_api.set(novas_opcoes[0])  # Define o valor padrão
         
 
 if __name__ == "__main__":

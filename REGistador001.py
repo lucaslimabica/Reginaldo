@@ -99,7 +99,7 @@ def listaAPIs(caminho: str = BASE_API):
         return lista
     
 def getAPI(nome:str, caminho: str = BASE_API):
-    "Retorna pelo nome a API de cada cliente"
+    "Retorna pelo nome a API do solicitado cliente"
     with open(caminho, "r") as file:
         base = json.load(file)
         if nome:
