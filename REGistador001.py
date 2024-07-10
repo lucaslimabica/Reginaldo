@@ -1,10 +1,11 @@
-import json
+import json, datetime, random
 
 
 # Caminho do arquivo JSON
 BASE_TEMPLATES = "C:/Users/lusca/Scripts/Scripts do Pipes/REG001.json"
 BASE_LOG = "C:/Users/lusca/Scripts/Scripts do Pipes/REG_LOG001.json"
 
+# Funções de Templates
 def criarBase(caminho: str = BASE_TEMPLATES):
     base = {"Pipedrive_Templates": []}
     with open(caminho, "w") as file:
@@ -56,6 +57,24 @@ def listaTemplates(caminho: str = BASE_TEMPLATES) -> list[str]:
             lista.append(template["nome"])
         return lista
 
+# Funções de Registo de Logs
+def criarBaseLog(caminho: str = BASE_LOG):
+    base = {"Log De Dados": []}
+    with open(caminho, "w") as file:
+        file.write(json.dumps(base, indent=4))
+    print("Base criada com sucesso!")
+
+def fazer_LOG(acao: str, api: str = "API Não Disponibilizada",caminho: str = BASE_LOG):
+    with open(caminho, "r+") as file:
+        base = json.load(file)
+        id_acao = f"{random.randint(0, 1000)}{random.choice("abcdefghijklmnopqrstuvwxyz")}{random.randint(0, 1000)}"
+        base["Log De Dados"].append((f"{acao}. API: {api}. ID da Ação: {id_acao}. Data e Hora {datetime.datetime.now()}."))
+        file.seek(0)
+        file.write(json.dumps(base, indent=4))
+        file.truncate()
+    print("Ação salva com sucesso!")
+
+fazer_LOG("testando log de dados mais uma vez", "local")
 # Criando a base de dados
 #criarBase(caminho_arquivo)
 
@@ -70,7 +89,7 @@ template = {
     }
 }
 
-print(listaTemplates())
+
 
 # Adicionando o template
 #addTemplate(caminho_arquivo, template)
