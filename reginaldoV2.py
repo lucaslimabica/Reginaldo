@@ -3,7 +3,7 @@ from tkinter import messagebox
 import PipeANDStages
 import re
 import random
-import REGistador
+import REGistador001, REGistador 
 
 
 class AppState:
@@ -312,7 +312,7 @@ class TemplatesPage(tk.Frame):
         self.app_state = app_state
 
         tk.Label(self, text="Template:", bg='#FFAE69').pack(padx=10, pady=5)
-        self.opcoest = ["Empresa de Eventos", "Clínica Dentária", "Escritório de Arquitetura", "Cursos Digitais"]
+        self.opcoest = ["Empresa de Eventos", "Clínica", "Escritório de Arquitetura", "Cursos Digitais"]
         self.variavel_dropdown_t = tk.StringVar(self)
         self.variavel_dropdown_t.set(self.opcoest[0])  # Valor padrão
         self.dropdown_t = tk.OptionMenu(self, self.variavel_dropdown_t, *self.opcoest)
@@ -338,11 +338,12 @@ class TemplatesPage(tk.Frame):
     def usarTemplate(self):
         modelo = self.variavel_dropdown_t.get()
         if modelo == "Empresa de Eventos":
-            model = REGistador.carregar_Template(2)
+            modelpai = REGistador001.getTemplate(nome="Clínicas")
+            model = modelpai["payload"]
             PipeANDStages.template(
                                     funil=model["funil"],
                                     fases=model["fases"],
-                                    campos=model["campos_texto"],
+                                    campos=model["campos"],
                                     atividades=model["atividades"],
                                     api_token=self.app_state.api_token
                                 )

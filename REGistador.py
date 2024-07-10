@@ -84,12 +84,23 @@ def carregar_Template(id) -> dict:
     
     return retorno
 
-#funil = "Vendas"
-#fases = "Estudo Inicial, Envio de Proposta, Negociação, Fecho"
+#funil = "Master Chef"
+#fases = "Estudo de Aluno, Envio de Proposta, Durante, Conclusão"
 #campos = '[("Nome", "deals"), ("Pedido", "deals")]'
 #atividades = '[("FU Ligação", "call"), ("Montar Proposta", "clip"), ("Enviar Proposta", "email")]'
 #cursor.execute("INSERT INTO templates_pipe (FUNIL, FASES, CAMPOS_TEXT, ATIVIDADES) VALUES (?, ?, ?, ?)", (funil, fases, campos, atividades))
 #conn.commit()
-dicio = carregar_Template(2)
-print(dicio["atividades"])
-PipeANDStages.template(funil=dicio["funil"], fases=dicio["fases"], campos=dicio["campos_texto"], atividades=dicio["atividades"], api_token="e7e7b4d64d34682c8fe269e2afd8497bf9b880f6")
+#template = {
+#    "nome": "Clínicas",
+#    "payload": {
+#        "funil": "Consultas",
+#        "fases": "Consulta Agendada, Consulta Confirmada, Consulta Realizada, Pós-Consulta",
+#        "campos": [("Data Agendada", "deals", "Data"), ("Método de Pagamento", "deals", "Escolha", ("Dinheiro", "Multibanco"))],
+#        "atividades": [("Verficar Data", "task"), ("FU: Ligação", "call")]
+#    }
+#}
+#
+#dicio = template["payload"]
+#print(dicio)
+#print(dicio["atividades"])
+#PipeANDStages.template(funil=dicio["funil"], fases=dicio["fases"], campos=dicio["campos_texto"], atividades=dicio["atividades"], api_token="e7e7b4d64d34682c8fe269e2afd8497bf9b880f6")

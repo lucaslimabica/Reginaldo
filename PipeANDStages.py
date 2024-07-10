@@ -27,6 +27,7 @@ urlOrgsFields = f"https://api.pipedrive.com/v1/organizationFields?api_token="
 
 # Úteis para Templates
 # -> Eventos
+FUNIL_EVENTOS = "Eventos"
 FASES_EVENTOS = "Estudo Inicial, Montagem de Proposta, Envio de Proposta, Negociação, Fecho"
 ATIVIDADES_EVENTOS = [("Listar Necessidades", "Clip"), ("Planear Evento", "Task"), ("Contacto com Fornecedores", "Call"), ("Enviar Proposta", "Email"), ("Propor Negociação", "Meeting"), ("Enviar Proposta Revisada", "Clip")]
 CAMPOS_EVENTOS = [("Tipo de Evento", "deals","Escolha", ("Privado", "Coorporativo", "Casamento")), ("Fornecedor", "deals", "Pessoa"), ("Nr de Convidados", "deals", "Numero"), ("Valor por Convidado", "deals", "Numero"), ("Data para Envio da Proposta", "deals", "Data")]
@@ -141,7 +142,7 @@ def criar_User(nome, email, api_token=API_TOKEN):
 
 # Empresa de Eventos
 
-def template(funil: str = "Eventos", fases: str = FASES_EVENTOS, campos: str = CAMPOS_EVENTOS, atividades = ATIVIDADES_EVENTOS, api_token: str = API_TOKEN):
+def template(funil: str = "Eventos", fases: str = FASES_EVENTOS, campos: list[tuple[str]] = CAMPOS_EVENTOS, atividades: list[tuple[str]] = ATIVIDADES_EVENTOS, api_token: str = API_TOKEN):
     funilID = criar_Funil(funil, api_token=api_token)
     criar_Fases(fases, funilID, api_token=api_token)
     print("FASES CRIADAS")
@@ -189,7 +190,21 @@ dadoscampo = {
     ]
 }
 
-#template_Eventos(api_token="e7e7b4d64d34682c8fe269e2afd8497bf9b880f6")
+#teste = {
+#    "nome": "Clínicas",
+#    "payload": {
+#        "funil": "Consultas",
+#        "fases": "Consulta Agendada, Consulta Confirmada, Consulta Realizada, Pós-Consulta",
+#        "campos": [("Data Agendada", "deals", "Data"), ("Método de Pagamento", "deals", "Escolha", ("Dinheiro", "Multibanco"))],
+#        "atividades": [("Verficar Data", "task"), ("FU: Ligação", "call")]
+#    }
+#}
+#
+#dicio = teste["payload"]
+#print(dicio)
+#print(dicio["atividades"])
+#template(funil=dicio["funil"], fases=dicio["fases"], campos=dicio["campos"], atividades=dicio["atividades"], api_token="e7e7b4d64d34682c8fe269e2afd8497bf9b880f6")
+#template(api_token="e7e7b4d64d34682c8fe269e2afd8497bf9b880f6")
 #criar_Campo("RG, CPF, Peso", "Numero")
 #criar_TipoAtividade("Comer",api_token="e7e7b4d64d34682c8fe269e2afd8497bf9b880f6")
 # Criando Fases

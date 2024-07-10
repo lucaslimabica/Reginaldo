@@ -1,0 +1,37 @@
+{
+    "Pipedrive_Templates": [
+        {
+            "nome": "Cl\u00ednicas",
+            "payload": {
+                "funil": "Consultas",
+                "fases": "Consulta Agendada, Consulta Confirmada, Consulta Realizada, P\u00f3s-Consulta",
+                "campos": [
+                    [
+                        "Data Agendada",
+                        "deals",
+                        "Data"
+                    ],
+                    [
+                        "M\u00e9todo de Pagamento",
+                        "deals",
+                        "Escolha",
+                        [
+                            "Dinheiro",
+                            "Multibanco"
+                        ]
+                    ]
+                ],
+                "atividades": [
+                    [
+                        "Verficar Data",
+                        "task"
+                    ],
+                    [
+                        "FU: Liga\u00e7\u00e3o",
+                        "call"
+                    ]
+                ]
+            }
+        }
+    ]
+}
