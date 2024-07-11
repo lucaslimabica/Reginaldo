@@ -4,7 +4,8 @@ from tkinter import ttk
 import PipeANDStages
 import re
 import random
-import REGistador001 
+import REGistador001
+from PIL import Image, ImageTk
 
 
 class AppState:
@@ -20,13 +21,23 @@ class App(tk.Tk):
         self.app_state = AppState()
 
         style = ttk.Style(self)
-        style.theme_use('clam')  # Experimente 'clam', 'alt', 'default', 'classic'
+        style.theme_use('clam')
 
         # Configurando estilos personalizados
         style.configure('TFrame', background='#BDECB6')
         style.configure('TLabel', background='#BDECB6', font=('@Microsft YaHei UI', 12))
         style.configure('TEntry', font=('@Microsft YaHei UI', 12))
         style.configure('TButton', font=('@Microsft YaHei UI', 12), padding=6)
+        style.configure('Custom.TButton',
+                background='white',
+                foreground='black',
+                font=('@Microsft YaHei UI', 12),
+                borderwidth=0.1,
+                width=25)
+        style.map('Custom.TButton',
+          background=[('pressed', '#BDECB6'), ('active', 'black')],
+          foreground=[('disabled', 'gray'), ('active', 'white')])
+
 
         # Container para os frames
         container = ttk.Frame(self, style='TFrame')
@@ -70,17 +81,17 @@ class HomePage(ttk.Frame):
         save_button.pack()
 
         button1 = ttk.Button(self, text="Etapas e Funis", 
-                            command=lambda: controller.show_frame("EtapasFunisPage"))
+                            command=lambda: controller.show_frame("EtapasFunisPage"), style="Custom.TButton")
         button2 = ttk.Button(self, text="Campos Personalizados", 
-                            command=lambda: controller.show_frame("CamposPage"))
+                            command=lambda: controller.show_frame("CamposPage"), style="Custom.TButton")
         button3 = ttk.Button(self, text="Tipos de Atividade", 
-                            command=lambda: controller.show_frame("AtividadesPage"))
+                            command=lambda: controller.show_frame("AtividadesPage"), style="Custom.TButton")
         button4 = ttk.Button(self, text="Usuários", 
-                            command=lambda: controller.show_frame("UsersPage"))
+                            command=lambda: controller.show_frame("UsersPage"), style="Custom.TButton")
         button5 =ttk.Button(self, text="Galeria de Templates", 
-                            command=lambda: controller.show_frame("TemplatesPage"))
+                            command=lambda: controller.show_frame("TemplatesPage"), style="Custom.TButton")
         button6 =ttk.Button(self, text="Galeria de APIs", 
-                            command=lambda: controller.show_frame("APIsPage"))
+                            command=lambda: controller.show_frame("APIsPage"), style="Custom.TButton")
 
         button1.pack(pady=10)
         button2.pack(pady=10)
@@ -187,10 +198,12 @@ class CamposPage(ttk.Frame):
         self.entrada_nome_ops.pack(padx=10, pady=5)
 
         # Adicionando um Combobox (dropdown)
+        ttk.Label(self, text="Selecione o Tipo:").pack(padx=10, pady=5)
         self.variavel_dropdown_tipo = tk.StringVar()
         self.dropdown_tipo = ttk.Combobox(self, textvariable=self.variavel_dropdown_tipo, values=["Texto", "Escolha", "Data", "Moeda", "Status", "Numero", "Multipla Escolha", "Hora"], style='TCombobox')
         self.dropdown_tipo.pack(pady=5, padx=10)
-
+        
+        ttk.Label(self, text="Selecione o Sítio:").pack(padx=10, pady=5)
         self.variavel_dropdown = tk.StringVar()
         self.dropdown = ttk.Combobox(self, textvariable=self.variavel_dropdown, values=["Negócios/Leads", "Pessoas", "Organizações"], style='TCombobox')
         self.dropdown.pack(pady=5, padx=10)
