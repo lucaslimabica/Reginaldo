@@ -145,9 +145,18 @@ def criar_User(nome, email, api_token=API_TOKEN):
     response = requests.post(url=f"{urlUsers}{api_token}", data=json.dumps(payload), headers=HEADERS)
     print(response.text, response.status_code)
 
-### Templates ###
+def deletar_Campos(ids = None, api_token=API_TOKEN):
+    if ids:
+        lista = [numero.strip() for numero in ids.split(",")]
+    else:
+        lista = [i for i in range(70, 140)]
+    for id in lista:
+        response = requests.delete(url=f"{urlDealsFields[0:39]}/{id}?api_token={api_token}")
+        print(response.json())
+        print(f"{urlDealsFields[0:39]}/{id}?api_token={api_token}")
+    print(lista)
 
-# Empresa de Eventos
+### Templates ###
 
 def template(funil: str = "Eventos", fases: str = FASES_EVENTOS, campos: list[tuple[str]] = CAMPOS_EVENTOS, atividades: list[tuple[str]] = ATIVIDADES_EVENTOS, api_token: str = API_TOKEN):
     """
@@ -180,11 +189,6 @@ def template(funil: str = "Eventos", fases: str = FASES_EVENTOS, campos: list[tu
         criar_TipoAtividade(nome, icon, api_token=api_token)
         print(f"Tipo {nome} criado")   
 
-# Criando um Funil
-
-#idfunil, nomefunil = criar_Funil("Siri Cascudo")
-#funil = Funil(nomefunil, idfunil)
-#print(funil)
 dadoscampo = {
     "group_id":1,
     "edit_flag": True,
@@ -203,24 +207,3 @@ dadoscampo = {
         }
     ]
 }
-
-#teste = {
-#    "nome": "Clínicas",
-#    "payload": {
-#        "funil": "Consultas",
-#        "fases": "Consulta Agendada, Consulta Confirmada, Consulta Realizada, Pós-Consulta",
-#        "campos": [("Data Agendada", "deals", "Data"), ("Método de Pagamento", "deals", "Escolha", ("Dinheiro", "Multibanco"))],
-#        "atividades": [("Verficar Data", "task"), ("FU: Ligação", "call")]
-#    }
-#}
-#
-#dicio = teste["payload"]
-#print(dicio)
-#print(dicio["atividades"])
-#template(funil=dicio["funil"], fases=dicio["fases"], campos=dicio["campos"], atividades=dicio["atividades"], api_token="e7e7b4d64d34682c8fe269e2afd8497bf9b880f6")
-#template(api_token="e7e7b4d64d34682c8fe269e2afd8497bf9b880f6")
-#criar_Campo("RG, CPF, Peso", "Numero")
-#criar_TipoAtividade("Comer",api_token="e7e7b4d64d34682c8fe269e2afd8497bf9b880f6")
-# Criando Fases
-#fases = "R1: Estudo Inicial, R2: Ajustes e Configurações, R3: Entrega & Treinamento, Fecho, Fase de Suporte & R4"
-#criar_Fases(fases, 9)

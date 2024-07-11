@@ -123,11 +123,11 @@ def getAPI(nome:str, caminho: str = BASE_API):
             return "e7e7b4d64d34682c8fe269e2afd8497bf9b880f6"
         
 #criarTemplate(
-#    nome="WooCommerce",
-#    funil="Loja Online",
-#    fases="Compra Realizada, Envio de Follow Ups, Visita Confirmada, Visita Realizada",
-#    campos=[("Produto", "deals", "Texto"), ("Método de Pagamento", "deals", "Escolha", ("MBWay", "Multibanco")), ("Número de Produtos Comprados", "persons", "Numero")],
-#    atividades=[("Marcar Visita", "task")]
+#    nome="Info Produtos",
+#    funil="Curso Online",
+#    fases="Compra Realizada, Envio de Follow Ups, Durante, Formatura, Upselling",
+#    campos=[("Turma", "deals", "Texto"), ("Método de Pagamento", "deals", "Escolha", ("MBWay", "Multibanco"))],
+#    atividades=[("Marcar Formatura", "calendar")]
 #)
 #
 #template = getTemplate(nome="WooCommerce")

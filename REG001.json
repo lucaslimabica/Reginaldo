@@ -66,6 +66,35 @@
                     ]
                 ]
             }
+        },
+        {
+            "nome": "Info Produtos",
+            "payload": {
+                "funil": "Curso Online",
+                "fases": "Compra Realizada, Envio de Follow Ups, Durante, Formatura, Upselling",
+                "campos": [
+                    [
+                        "Turma",
+                        "deals",
+                        "Texto"
+                    ],
+                    [
+                        "M\u00e9todo de Pagamento",
+                        "deals",
+                        "Escolha",
+                        [
+                            "MBWay",
+                            "Multibanco"
+                        ]
+                    ]
+                ],
+                "atividades": [
+                    [
+                        "Marcar Formatura",
+                        "calendar"
+                    ]
+                ]
+            }
         }
     ]
 }

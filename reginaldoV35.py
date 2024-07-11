@@ -12,9 +12,11 @@ class AppState:
     def __init__(self):
         self.api_token = None
 
+
 class App(tk.Tk):
     def __init__(self):
         super().__init__()
+
         self.title("Reginaldo Beta Version")
         self.app_state = None
         self.geometry("800x600+100+100")
@@ -29,21 +31,21 @@ class App(tk.Tk):
         style.configure('TEntry', font=('@Microsft YaHei UI', 12))
         style.configure('TButton', font=('@Microsft YaHei UI', 12), padding=6)
         style.configure('Custom.TButton',
-                background='white',
-                foreground='black',
-                font=('@Microsft YaHei UI', 12),
-                borderwidth=0.1,
-                width=25)
+                        background='white',
+                        foreground='black',
+                        font=('@Microsft YaHei UI', 12),
+                        borderwidth=0.1,
+                        width=25)
         style.map('Custom.TButton',
-          background=[('pressed', '#BDECB6'), ('active', 'black')],
-          foreground=[('disabled', 'gray'), ('active', 'white')])
-
+                  background=[('pressed', '#BDECB6'), ('active', 'black')],
+                  foreground=[('disabled', 'gray'), ('active', 'white')])
 
         # Container para os frames
         container = ttk.Frame(self, style='TFrame')
         container.pack(fill="both", expand=True)
         container.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
         self.configure(bg='#BDECB6')
+
         # Dicionário para armazenar os frames
         self.frames = {}
 
@@ -53,7 +55,7 @@ class App(tk.Tk):
             frame = F(parent=container, controller=self, app_state=self.app_state)
             self.frames[page_name] = frame
             frame.grid(row=0, column=0, sticky="nsew")
-        
+
         # Mostrar a página inicial
         self.show_frame("HomePage")
 
@@ -67,42 +69,55 @@ class HomePage(ttk.Frame):
         super().__init__(parent)
         self.controller = controller
         self.app_state = app_state
-        label = ttk.Label(self, text="Robot Engine Generator", font=('@Microsft YaHei UI', 20))
-        label.pack(pady=10)
 
-        labeL2 = ttk.Label(self, text="Insira o Token de API:")
-        labeL2.pack(pady=10, padx=10)
+        self.grid_rowconfigure(0, weight=1)
+        self.grid_rowconfigure(1, weight=1)
+        self.grid_rowconfigure(2, weight=1)
+        self.grid_rowconfigure(3, weight=1)
+        self.grid_columnconfigure(0, weight=1)
+        self.grid_columnconfigure(1, weight=1)
+
+        label = ttk.Label(self, text="Robot Engine Generator", font=('@Microsft YaHei UI', 20))
+        label.grid(row=0, column=0, columnspan=2, pady=10)
+
+        label2 = ttk.Label(self, text="Insira o Token de API:")
+        label2.grid(row=1, column=0, columnspan=2, pady=10, padx=10)
 
         self.api_token_entry = ttk.Entry(self)
-        self.api_token_entry.pack(pady=10, padx=10)
+        self.api_token_entry.grid(row=2, column=0, columnspan=2, pady=10, padx=10)
 
-        save_button = ttk.Button(self, text="Salvar Token",
-                                command=self.save_token)
-        save_button.pack(expand=True)
+        save_button = ttk.Button(self, text="Salvar Token", command=self.save_token, style="Custom.TButton")
+        save_button.grid(row=3, column=0, columnspan=2, pady=10)
 
+        # Criação e posicionamento dos botões na grid
         button1 = ttk.Button(self, text="Etapas e Funis", 
-                            command=lambda: controller.show_frame("EtapasFunisPage"), style="Custom.TButton")
+                             command=lambda: controller.show_frame("EtapasFunisPage"), style="Custom.TButton")
         button2 = ttk.Button(self, text="Campos Personalizados", 
-                            command=lambda: controller.show_frame("CamposPage"), style="Custom.TButton")
+                             command=lambda: controller.show_frame("CamposPage"), style="Custom.TButton")
         button3 = ttk.Button(self, text="Tipos de Atividade", 
-                            command=lambda: controller.show_frame("AtividadesPage"), style="Custom.TButton")
+                             command=lambda: controller.show_frame("AtividadesPage"), style="Custom.TButton")
         button4 = ttk.Button(self, text="Usuários", 
-                            command=lambda: controller.show_frame("UsersPage"), style="Custom.TButton")
-        button5 =ttk.Button(self, text="Galeria de Templates", 
-                            command=lambda: controller.show_frame("TemplatesPage"), style="Custom.TButton")
-        button6 =ttk.Button(self, text="Galeria de APIs", 
-                            command=lambda: controller.show_frame("APIsPage"), style="Custom.TButton")
+                             command=lambda: controller.show_frame("UsersPage"), style="Custom.TButton")
+        button5 = ttk.Button(self, text="Galeria de Templates", 
+                             command=lambda: controller.show_frame("TemplatesPage"), style="Custom.TButton")
+        button6 = ttk.Button(self, text="Galeria de APIs", 
+                             command=lambda: controller.show_frame("APIsPage"), style="Custom.TButton")
 
-        button1.grid(row=0, column=0, padx=5, pady=10)
-        button2.grid(row=0, column=1, padx=5, pady=10)
-        button3.pack(pady=10)
-        button4.pack(pady=10)
-        button5.pack(pady=10)
-        button6.pack(pady=10)
+        # Posicionando os botões na grid
+        ttk.Label(self, text="Criação do Ambiente Pipedrive").grid(row=4, column=0, padx=5, pady=10, columnspan=2)
+        button1.grid(row=5, column=0, padx=5, pady=10)
+        button2.grid(row=5, column=1, padx=5, pady=10)
+        ttk.Label(self, text="Personalização do Pipedrive").grid(row=6, column=0, padx=5, pady=10, columnspan=2)
+        button3.grid(row=7, column=0, padx=5, pady=10)
+        button4.grid(row=7, column=1, padx=5, pady=10)
+        ttk.Label(self, text="Ferramentas Avançadas").grid(row=8, column=0, padx=5, pady=10, columnspan=2)
+        button5.grid(row=9, column=0, padx=5, pady=10)
+        button6.grid(row=9, column=1, padx=5, pady=10)
 
     def save_token(self):
-        self.app_state.api_token = self.api_token_entry.get()
-
+        token = self.api_token_entry.get()
+        print(f"Token salvo: {token}")
+        
 class EtapasFunisPage(ttk.Frame):
     def __init__(self, parent, controller, app_state):
         super().__init__(parent)
@@ -115,7 +130,7 @@ class EtapasFunisPage(ttk.Frame):
         self.entrada_nome_funil = ttk.Entry(self, width=50)
         self.entrada_nome_funil.pack(padx=10, pady=5)
 
-        self.botao_enviar_funil = ttk.Button(self, text="Criar Funil", command=self.criarFunil)
+        self.botao_enviar_funil = ttk.Button(self, text="Criar Funil", command=self.criarFunil, style="Custom.TButton")
         self.botao_enviar_funil.pack(padx=10, pady=10)
 
         ttk.Label(self, text="Etapas:").pack(padx=10, pady=5)
@@ -130,17 +145,17 @@ class EtapasFunisPage(ttk.Frame):
         self.dropdown = ttk.Combobox(self, textvariable=self.variavel_dropdown, values=PipeANDStages.get_funil(api_token=self.app_state.api_token), style='TCombobox')
         self.dropdown.pack(pady=5, padx=10)
 
-        self.button_atl = ttk.Button(self, text="Atualizar Funis", command=self.atualizar_dropdown)
+        self.button_atl = ttk.Button(self, text="Atualizar Funis", command=self.atualizar_dropdown, style="Custom.TButton")
         self.button_atl.pack(pady=10)
 
-        self.botao_enviar_etapa = ttk.Button(self, text="Criar Etapa", command=self.criarEtapa)
+        self.botao_enviar_etapa = ttk.Button(self, text="Criar Etapa", command=self.criarEtapa, style="Custom.TButton")
         self.botao_enviar_etapa.pack(padx=10, pady=10)
 
         self.token_label = ttk.Label(self, text="")
         self.token_label.pack(pady=10, padx=10)
 
         self.button = ttk.Button(self, text="Voltar para a Página Inicial", 
-                           command=lambda: controller.show_frame("HomePage"))
+                           command=lambda: controller.show_frame("HomePage"), style="Custom.TButton")
         self.button.pack(pady=10)
 
     def criarFunil(self):
@@ -208,14 +223,14 @@ class CamposPage(ttk.Frame):
         self.dropdown = ttk.Combobox(self, textvariable=self.variavel_dropdown, values=["Negócios/Leads", "Pessoas", "Organizações"], style='TCombobox')
         self.dropdown.pack(pady=5, padx=10)
 
-        self.botao_enviar_campo = ttk.Button(self, text="Criar Campo", command=self.criarCampo)
+        self.botao_enviar_campo = ttk.Button(self, text="Criar Campo", command=self.criarCampo, style="Custom.TButton")
         self.botao_enviar_campo.pack(padx=10, pady=10)
 
         self.token_label = ttk.Label(self, text="")
         self.token_label.pack(pady=10, padx=10)
 
         self.button = ttk.Button(self, text="Voltar para a Página Inicial", 
-                           command=lambda: controller.show_frame("HomePage"))
+                           command=lambda: controller.show_frame("HomePage"), style="Custom.TButton")
         self.button.pack(pady=10)
 
     def tkraise(self, aboveThis=None):
@@ -266,14 +281,14 @@ class AtividadesPage(ttk.Frame):
         self.dropdown = ttk.Combobox(self, textvariable=self.variavel_dropdown, values=["Call", "Meeting", "Calendar", "Arrow Down", "Email", "Smartphone", "Clip", "Bell"], style='TCombobox')
         self.dropdown.pack(pady=5, padx=10)
 
-        self.botao_enviar_atividade = ttk.Button(self, text="Criar Tipo de Atividade", command=self.criarAtv)
+        self.botao_enviar_atividade = ttk.Button(self, text="Criar Tipo de Atividade", command=self.criarAtv, style="Custom.TButton")
         self.botao_enviar_atividade.pack(padx=10, pady=10)
 
         self.token_label = ttk.Label(self, text="")
         self.token_label.pack(pady=10, padx=10)
 
         self.button = ttk.Button(self, text="Voltar para a Página Inicial", 
-                           command=lambda: controller.show_frame("HomePage"))
+                           command=lambda: controller.show_frame("HomePage"), style="Custom.TButton")
         self.button.pack(pady=10)
 
     def tkraise(self, aboveThis=None):
@@ -304,14 +319,14 @@ class UsersPage(ttk.Frame):
         self.entrada_email_user = ttk.Entry(self, width=70)
         self.entrada_email_user.pack(padx=10, pady=5)
 
-        self.botao_enviar_user = ttk.Button(self, text="Criar Usuário", command=self.criarUser)
+        self.botao_enviar_user = ttk.Button(self, text="Criar Usuário", command=self.criarUser, style="Custom.TButton")
         self.botao_enviar_user.pack(padx=10, pady=10)
 
         self.token_label = ttk.Label(self, text="")
         self.token_label.pack(pady=10, padx=10)
 
         self.button = ttk.Button(self, text="Voltar para a Página Inicial", 
-                           command=lambda: controller.show_frame("HomePage"))
+                           command=lambda: controller.show_frame("HomePage"), style="Custom.TButton")
         self.button.pack(pady=10)
 
     def tkraise(self, aboveThis=None):
@@ -341,14 +356,14 @@ class TemplatesPage(ttk.Frame):
         self.dropdown = ttk.Combobox(self, textvariable=self.variavel_dropdown, values=REGistador001.listaTemplates(), style='TCombobox')
         self.dropdown.pack(pady=5, padx=10)
 
-        self.botao_enviar_template = ttk.Button(self, text="Criar Pipedrive", command=self.usarTemplate)
+        self.botao_enviar_template = ttk.Button(self, text="Criar Pipedrive", command=self.usarTemplate, style="Custom.TButton")
         self.botao_enviar_template.pack(padx=10, pady=10)
 
         self.token_label = ttk.Label(self, text="")
         self.token_label.pack(pady=10, padx=10)
 
         self.button = ttk.Button(self, text="Voltar para a Página Inicial", 
-                           command=lambda: controller.show_frame("HomePage"))
+                           command=lambda: controller.show_frame("HomePage"), style="Custom.TButton")
         self.button.pack(pady=10)
 
     def tkraise(self, aboveThis=None):
@@ -390,7 +405,7 @@ class APIsPage(ttk.Frame):
         self.entrada_token_api.pack(padx=10, pady=5)
 
         # Criar API
-        self.botao_criar_api = ttk.Button(self, text="Salvar API", command=self.salvarAPI)
+        self.botao_criar_api = ttk.Button(self, text="Salvar API", command=self.salvarAPI, style="Custom.TButton")
         self.botao_criar_api.pack(padx=10, pady=10)
 
         # Lista de APIs
@@ -401,14 +416,14 @@ class APIsPage(ttk.Frame):
         self.dropdown.pack(pady=5, padx=10)
 
         # Selecionar API
-        self.botao_selecionar_api = ttk.Button(self, text="Selecionar API", command=self.selecionarAPI)
+        self.botao_selecionar_api = ttk.Button(self, text="Selecionar API", command=self.selecionarAPI, style="Custom.TButton")
         self.botao_selecionar_api.pack(padx=10, pady=10)
 
         self.token_label = ttk.Label(self, text="")
         self.token_label.pack(pady=10, padx=10)
 
         self.button = ttk.Button(self, text="Voltar para a Página Inicial", 
-                           command=lambda: controller.show_frame("HomePage"))
+                           command=lambda: controller.show_frame("HomePage"), style="Custom.TButton")
         self.button.pack(pady=10)
 
     def tkraise(self, aboveThis=None):

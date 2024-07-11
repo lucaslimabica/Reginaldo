@@ -18,3 +18,4 @@ venv/
 # Ignore logs and databases
 *.log
 *.sqlite3
+*.json
