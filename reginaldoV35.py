@@ -5,7 +5,6 @@ import PipeANDStages
 import re
 import random
 import REGistador001
-from PIL import Image, ImageTk
 
 
 class AppState:
@@ -19,7 +18,7 @@ class App(tk.Tk):
 
         self.title("Reginaldo Beta Version")
         self.app_state = None
-        self.geometry("800x600+100+100")
+        self.geometry("900x700+50+50")
         self.app_state = AppState()
 
         style = ttk.Style(self)
@@ -101,7 +100,7 @@ class HomePage(ttk.Frame):
                              command=lambda: controller.show_frame("UsersPage"), style="Custom.TButton")
         button5 = ttk.Button(self, text="Galeria de Templates", 
                              command=lambda: controller.show_frame("TemplatesPage"), style="Custom.TButton")
-        button6 = ttk.Button(self, text="Galeria de APIs", 
+        button6 = ttk.Button(self, text="Biblioteca de APIs", 
                              command=lambda: controller.show_frame("APIsPage"), style="Custom.TButton")
         button7 = ttk.Button(self, text="Atelier de Templates", 
                              command=lambda: controller.show_frame("TemplateAtelier"), style="Custom.TButton")
@@ -406,45 +405,121 @@ class TemplateAtelier(ttk.Frame):
         label = ttk.Label(self, text="Atelier de Templates", font=('@Microsft YaHei UI', 20, "bold"))
         label.grid(row=0, column=0, columnspan=2, pady=10)
 
-        ttk.Label(self, text="Nome do Template:", font=("@Microsft YaHei UI", 12)).grid(row=1, column=0, columnspan=2, pady=10)
-        self.entrada_nome_template = ttk.Entry(self, width=50).grid(row=2, column=0, columnspan=2, pady=10)
+        ttk.Label(self, text="Nome do Template:", font=("@Microsft YaHei UI", 12), justify="left").grid(row=1, column=0, columnspan=2, pady=10)
+        self.entrada_nome_template = ttk.Entry(self, width=50)
+        self.entrada_nome_template.grid(row=2, column=0, columnspan=2, pady=10)
 
-        ttk.Label(self, text="Nome do Funil:", font=("@Microsft YaHei UI", 12)).grid(row=3, column=0, pady=10)
-        self.entrada_funil_template = ttk.Entry(self, width=50).grid(row=3, column=1, pady=10)
+        ttk.Label(self, text="Nome do Funil:", font=("@Microsft YaHei UI", 12), justify="left").grid(row=3, column=0, pady=10)
+        self.entrada_funil_template = ttk.Entry(self, width=50)
+        self.entrada_funil_template.grid(row=3, column=1, pady=10)
 
-        ttk.Label(self, text="Fases:", font=("@Microsft YaHei UI", 12)).grid(row=4, column=0, pady=10)
-        self.entrada_fases_template = ttk.Entry(self, width=50).grid(row=4, column=1, pady=10)         
+        ttk.Label(self, text="Fases:", font=("@Microsft YaHei UI", 12), justify="left").grid(row=4, column=0, pady=10)
+        self.entrada_fases_template = ttk.Entry(self, width=50)
+        self.entrada_fases_template.grid(row=4, column=1, pady=10)         
 
-        ttk.Label(self, text="Campos Texto:", font=("@Microsft YaHei UI", 12)).grid(row=5, column=0, pady=10)
-        self.entrada_textos_template = ttk.Entry(self, width=50).grid(row=5, column=1, pady=10)
+        ttk.Label(self, text="Campos Texto:", font=("@Microsft YaHei UI", 12), justify="left").grid(row=5, column=0, pady=10)
+        self.entrada_textos_template = ttk.Entry(self, width=50)
+        self.entrada_textos_template.grid(row=5, column=1, pady=10)
 
-        ttk.Label(self, text="Campos Número:", font=("@Microsft YaHei UI", 12)).grid(row=6, column=0, pady=10)
-        self.entrada_numeros_template = ttk.Entry(self, width=50).grid(row=6, column=1, pady=10)
+        ttk.Label(self, text="Campos Número:", font=("@Microsft YaHei UI", 12), justify="left").grid(row=6, column=0, pady=10)
+        self.entrada_numeros_template = ttk.Entry(self, width=50)
+        self.entrada_numeros_template.grid(row=6, column=1, pady=10)
 
-        ttk.Label(self, text="Campos Data:", font=("@Microsft YaHei UI", 12)).grid(row=7, column=0, pady=10)
-        self.entrada_datas_template = ttk.Entry(self, width=50).grid(row=7, column=1, pady=10)
+        ttk.Label(self, text="Campos Data:", font=("@Microsft YaHei UI", 12), justify="left").grid(row=7, column=0, pady=10)
+        self.entrada_datas_template = ttk.Entry(self, width=50)
+        self.entrada_datas_template.grid(row=7, column=1, pady=10)
 
-        ttk.Label(self, text="Campos Opção:", font=("@Microsft YaHei UI", 12)).grid(row=8, column=0, pady=10)
-        self.entrada_escolha_template = ttk.Entry(self, width=50).grid(row=8, column=1, pady=10)
+        ttk.Label(self, text="Campos Opção:", font=("@Microsft YaHei UI", 12), justify="left").grid(row=8, column=0, pady=10)
+        self.entrada_escolha_template = ttk.Entry(self, width=50)
+        self.entrada_escolha_template.grid(row=8, column=1, pady=10)
 
-        ttk.Label(self, text="Opções (op1, op2, op3):", font=("@Microsft YaHei UI", 12)).grid(row=8, column=0, pady=10)
-        self.entrada_ops_template = ttk.Entry(self, width=50).grid(row=8, column=1, pady=10)
+        ttk.Label(self, text="Opções (op1, op2, op3):", font=("@Microsft YaHei UI", 12), justify="left").grid(row=9, column=0, pady=10)
+        self.entrada_ops_template = ttk.Entry(self, width=50)
+        self.entrada_ops_template.grid(row=9, column=1, pady=10)
 
-        ttk.Label(self, text="Atividades (nome, icon):", font=("@Microsft YaHei UI", 12)).grid(row=9, column=0, pady=10)
-        self.entrada_atividades_template = ttk.Entry(self, width=50).grid(row=9, column=1, pady=10)
+        ttk.Label(self, text="Atividades (nome, icon):", font=("@Microsft YaHei UI", 12), justify="left").grid(row=10, column=0, pady=10)
+        self.entrada_atividades_template = ttk.Entry(self, width=50)
+        self.entrada_atividades_template.grid(row=10, column=1, pady=10)
 
         self.token_label = ttk.Label(self, text="")
         #self.token_label.grid(row=10, columnspan=2, column=0, pady=10)
 
         self.botao_enviar_template = ttk.Button(self, text="Salvar Template", command=self.salvarTemplate, style="Custom.TButton")
-        self.botao_enviar_template.grid(row=10, column=0, pady=10, columnspan=2)
+        self.botao_enviar_template.grid(row=11, column=0, pady=10, columnspan=2)
 
         self.button = ttk.Button(self, text="Voltar para a Página Inicial", 
                            command=lambda: controller.show_frame("HomePage"), style="Custom.TButton")
-        self.button.grid(row=11, columnspan=2, column=0, pady=10)
+        self.button.grid(row=12, columnspan=2, column=0, pady=10)
 
     def salvarTemplate(self):
-        pass
+        novo_template = {"nome": "REGifone",
+                              "payload": {
+                                  "funil": "Cloud Solutions",
+                                  "fases": "Estudo Inicial, Fase de Proposta, Negociação, Fecho",
+                                  "campos": [("Envio de Proposta", "deals", "Data"), ("Produto/Serviço", "deals", "Escolha", ("Dev Sofwate", "Support Software"))],
+                                  "atividades": [] 
+                              }}
+        corpo_template = novo_template["payload"]
+        novo_template["nome"] = self.entrada_nome_template.get()
+        corpo_template["funil"] = self.entrada_funil_template.get()
+        corpo_template["fases"] = self.entrada_fases_template.get()
+        
+        ### Atividades ###
+        # Expressão regular para encontrar tuplas
+        PADRAO_TUPLA_ATV = re.compile(r'\(([^)]+)\)')
+        # Encontrar todas as tuplas na string
+        tuples = PADRAO_TUPLA_ATV.findall(self.entrada_atividades_template.get())
+        # Lista para armazenar os dicionários resultantes
+        atividades = []
+        # Processar cada tupla
+        for t in tuples:
+            # Dividir a tupla em partes
+            nome, tipo = map(str.strip, t.split(','))
+            # Criar um dicionário para a tupla
+            atividades.append((nome, tipo))
+        corpo_template["atividades"] = atividades
+        
+        ### Campos ###
+        lista_campos = []
+        if self.entrada_numeros_template.get():
+            lista_num = [num.strip() for num in self.entrada_numeros_template.get().split(", ")]
+            for num in lista_num:
+                num = (num, "deals", "Numero")
+                lista_campos.append(num)
+        if self.entrada_textos_template.get():
+            lista_txt = [txt.strip() for txt in self.entrada_textos_template.get().split(", ")]
+            for txt in lista_txt:
+                txt = (txt, "deals", "Texto")
+                lista_campos.append(txt)
+        if self.entrada_datas_template.get():
+            lista_data = [data.strip() for data in self.entrada_datas_template.get().split(", ")]
+            for data in lista_data:
+                data = (data, "deals", "Data")
+                lista_campos.append(data)
+        if self.entrada_escolha_template.get():
+            lista_escolhas = [escolha.strip() for escolha in self.entrada_escolha_template.get().split(", ")] # Lista dos campos de escolha
+            lista_ops = [op for op in self.entrada_ops_template.get().split("/")]
+            lista_ops_tratada = [] # Lista das opções já separadas
+            for op in lista_ops:
+                lista_ops_tratada.append((op.split(", ")))
+            lista_campos_escolha = []
+            for i in range(len(lista_escolhas)):
+                lista_campos_escolha.append((lista_escolhas[i], "deals", "Escolha", lista_ops_tratada[i]))
+            for campo in lista_campos_escolha:
+                lista_campos.append(campo)
+        corpo_template["campos"] = lista_campos
+        
+        REGistador001.criarTemplate(
+            nome=novo_template["nome"],
+            funil=corpo_template["funil"],
+            fases=corpo_template["fases"],
+            campos=corpo_template["campos"],
+            atividades=corpo_template["atividades"]
+        )
+        REGistador001.fazer_LOG(f"Criacao de Template: {novo_template['nome']}", api="LOCAL")
+        self.atualizar_dropdown()
+        print(lista_campos_escolha)
+        print(novo_template)
 
     def tkraise(self, aboveThis=None):
         if self.app_state.api_token:
@@ -452,6 +527,12 @@ class TemplateAtelier(ttk.Frame):
         else:
             self.token_label.config(text="Token de API não definido")
         super().tkraise(aboveThis)
+
+    def atualizar_dropdown(self):
+        novas_opcoes = REGistador001.listaTemplates()
+        TemplatesPage.dropdown['values'] = novas_opcoes
+        if novas_opcoes:
+            TemplatesPage.variavel_dropdown.set(novas_opcoes[0])
 
 
 class APIsPage(ttk.Frame):
@@ -516,6 +597,7 @@ class APIsPage(ttk.Frame):
         else:
             nome = self.entrada_nome_api.get()
         self.app_state.api_token = REGistador001.getAPI(nome)
+        EtapasFunisPage.atualizar_dropdown(self)
         self.tkraise()
 
     def atualizar_dropdown(self):

@@ -95,6 +95,123 @@
                     ]
                 ]
             }
+        },
+        {
+            "nome": "Siri Cascudo",
+            "payload": {
+                "funil": "Hamburguer de Siri",
+                "fases": "Pedido, Cozinha, Entrega, AS",
+                "campos": [
+                    [
+                        "Preco",
+                        "deals",
+                        "Numero"
+                    ],
+                    [
+                        "Peso",
+                        "deals",
+                        "Numero"
+                    ],
+                    [
+                        "Nome",
+                        "deals",
+                        "Texto"
+                    ],
+                    [
+                        "Descricao",
+                        "deals",
+                        "Texto"
+                    ],
+                    [
+                        "Data de Entrega",
+                        "deals",
+                        "Data"
+                    ],
+                    [
+                        "Data do Pedido",
+                        "deals",
+                        "Data"
+                    ],
+                    [
+                        "Tem Tomate?",
+                        "deals",
+                        "Escolha",
+                        [
+                            "Sim",
+                            "Nao"
+                        ]
+                    ],
+                    [
+                        "Tem Alface?",
+                        "deals",
+                        "Escolha",
+                        [
+                            "Sim",
+                            "Nao"
+                        ]
+                    ]
+                ],
+                "atividades": [
+                    [
+                        "Enviar",
+                        "task"
+                    ]
+                ]
+            }
+        },
+        {
+            "nome": "Siri Cascudov2",
+            "payload": {
+                "funil": "Hamburguer de Siri",
+                "fases": "Pedido, Cozinha, Entrega, AS",
+                "campos": [
+                    [
+                        "Preco",
+                        "deals",
+                        "Numero"
+                    ],
+                    [
+                        "Peso",
+                        "deals",
+                        "Numero"
+                    ],
+                    [
+                        "Nome",
+                        "deals",
+                        "Texto"
+                    ],
+                    [
+                        "Descricao",
+                        "deals",
+                        "Texto"
+                    ],
+                    [
+                        "Data de Entrega",
+                        "deals",
+                        "Data"
+                    ],
+                    [
+                        "Data do Pedido",
+                        "deals",
+                        "Data"
+                    ],
+                    [
+                        "Apimentado",
+                        "deals",
+                        "Escolha",
+                        [
+                            "Sim",
+                            "Nao"
+                        ]
+                    ]
+                ],
+                "atividades": [
+                    [
+                        "Enviar",
+                        "task"
+                    ]
+                ]
+            }
         }
     ]
 }
