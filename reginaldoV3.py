@@ -98,6 +98,8 @@ class EtapasFunisPage(ttk.Frame):
         self.controller = controller
         self.app_state = app_state
 
+        ttk.Label(self, text="Criação de Funil e Fases", font=('@Microsft YaHei UI', 20)).pack(pady=10)
+
         ttk.Label(self, text="Nome do Funil:").pack(padx=10, pady=5)
         self.entrada_nome_funil = ttk.Entry(self, width=50)
         self.entrada_nome_funil.pack(padx=10, pady=5)
@@ -174,6 +176,8 @@ class CamposPage(ttk.Frame):
         self.controller = controller
         self.app_state = app_state
 
+        ttk.Label(self, text="Criação de Campos", font=('@Microsft YaHei UI', 20)).pack(pady=10)
+
         ttk.Label(self, text="Criar Campo:").pack(padx=10, pady=5)
         self.entrada_nome_campo = ttk.Entry(self, width=70)
         self.entrada_nome_campo.pack(padx=10, pady=5)
@@ -236,6 +240,8 @@ class AtividadesPage(ttk.Frame):
         self.controller = controller
         self.app_state = app_state
 
+        ttk.Label(self, text="Criação de Atividades", font=('@Microsft YaHei UI', 20)).pack(pady=10)
+
         ttk.Label(self, text="Nome da Atividade:").pack(padx=10, pady=5)
         self.entrada_nome_atv = ttk.Entry(self, width=70)
         self.entrada_nome_atv.pack(padx=10, pady=5)
@@ -275,6 +281,8 @@ class UsersPage(ttk.Frame):
         self.controller = controller
         self.app_state = app_state
 
+        ttk.Label(self, text="Criação de Usuários", font=('@Microsft YaHei UI', 20)).pack(pady=10)
+
         ttk.Label(self, text="Nome do Usuário:").pack(padx=10, pady=5)
         self.entrada_nome_user = ttk.Entry(self, width=70)
         self.entrada_nome_user.pack(padx=10, pady=5)
@@ -311,6 +319,8 @@ class TemplatesPage(ttk.Frame):
         super().__init__(parent)
         self.controller = controller
         self.app_state = app_state
+
+        ttk.Label(self, text="Galeria de Templates", font=('@Microsft YaHei UI', 20)).pack(pady=10)
 
         ttk.Label(self, text="Template:").pack(padx=10, pady=5)
 
@@ -354,7 +364,9 @@ class APIsPage(ttk.Frame):
         self.controller = controller
         self.app_state = app_state
 
-        ttk.Label(self, text="Adicione uma Nova API:").pack(padx=10, pady=5)
+        ttk.Label(self, text="Galeria de APIs", font=('@Microsft YaHei UI', 20)).pack(pady=10)
+
+        ttk.Label(self, text="Adicione uma Nova API").pack(padx=10, pady=5)
 
         ttk.Label(self, text="Nome da API:").pack(padx=10, pady=5)
         self.entrada_nome_api = ttk.Entry(self, width=70)
