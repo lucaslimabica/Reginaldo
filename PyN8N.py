@@ -1,5 +1,6 @@
 import requests, json
 
+
 # URL da API do n8n
 url = 'https://n8n.brasfone.pt/api/v1/workflows'
 
@@ -11,99 +12,72 @@ HEADERS = {
     'Content-Type': 'application/json'
 }
 
-# Dados para criar ou atualizar um workflow
-data = {
-    'name': 'Meu novo workflow',
-    'nodes': [
-        {
-            'parameters': {},
-            'name': 'Start',
-            'type': 'n8n-nodes-base.start',
-            'typeVersion': 1,
-            'position': [240, 300]
-        }
-        # Adicione mais nós conforme necessário
-    ],
-    'connections': {},
-    "settings": {
-    "saveExecutionProgress": True,
-    "saveManualExecutions": True,
-    "saveDataErrorExecution": "all",
-    "saveDataSuccessExecution": "all",
-    "executionTimeout": 3600,
-    "errorWorkflow": "VzqKEW0ShTXA5vPj",
-    "timezone": "America/New_York",
-    "executionOrder": "v1"
-  },
-  "staticData": {
-    "lastId": 1
-  }
-}
+CAMINHO_EXEMPLO = "C:/Users/lusca/Scripts/Scripts do Pipes/FluxoBase001.json"
 
-EXEMPLO =  {
-  "name": "Workflow de Exemplo",
-  "nodes": [
-    {
-      "id": "0f5532f9-36ba-4bef-86c7-30d607400b15",
-      "name": "Lucao",
-      "webhookId": "string",
-      "disabled": True,
-      "notesInFlow": True,
-      "notes": "string",
-      "type": "n8n-nodes-base.Jira",
-      "typeVersion": 1,
-      "executeOnce": False,
-      "alwaysOutputData": False,
-      "retryOnFail": False,
-      "maxTries": 0,
-      "waitBetweenTries": 0,
-      "onError": "stopWorkflow",
-      "position": [
-        -100,
-        80
-      ],
-      "parameters": {
-        "additionalProperties": {}
-      },
-      "credentials": {
-        "jiraSoftwareCloudApi": {
-          "id": "35",
-          "name": "jiraApi"
-        }
-      }
-    }
-  ],
-  "connections": {
-    "main": [
-      {
-        "node": "Jira",
-        "type": "main",
-        "index": 0
-      }
-    ]
-  },
-  "settings": {
-    "saveExecutionProgress": True,
-    "saveManualExecutions": True,
-    "saveDataErrorExecution": "all",
-    "saveDataSuccessExecution": "all",
-    "executionTimeout": 3600,
-    "errorWorkflow": "VzqKEW0ShTXA5vPj",
-    "timezone": "America/New_York",
-    "executionOrder": "v1"
-  },
-  "staticData": {
-    "lastId": 1
-  }
-}
+# Funções Getters
 
+def get_Nos(caminho=CAMINHO_EXEMPLO) -> dict:
+  """
+  Permite apenas pegar os nós Edit Fields (SET)
+  Retorna o nó completo como dicionário
+  """
+  with open(caminho, "r") as file:
+    fluxo = json.load(file)
+    nos = [no for no in fluxo['nodes']]
+    for i, no in enumerate(nos):
+      if no["type"].split(".")[-1] == "set":
+        print(f"Nó {i + 1} - {no["name"]}")
+    escolha = int(input("Qual Nó deve ser alterado?"))
+  return nos[escolha - 1]
+
+def get_Variaveis(no):
+  parametros = no["parameters"]
+  assignments = parametros["assignments"]
+  assignments_lista = assignments["assignments"]
+  print("Qual Atributo deve ser alterado?")
+  for i, atributo in enumerate(assignments_lista):
+    print(f"{i + 1}º : {atributo["name"]} - Valor: {atributo["value"]}")
+    print("-" * 50)
+  escolha = int(input(">>> "))
+  novo_valor = input("Insira a nova fórmula: ")
+  return assignments_lista[escolha - 1]['name'], novo_valor
+    #for key, value in atributo.items():
+    #  print(f"{key} - {value}")
+
+def altera_Atributo(propriedade, novo_valor, fluxo=CAMINHO_EXEMPLO):
+    """
+    Altera um atributo específico de um nó no fluxo de trabalho
+    """
+    with open(fluxo, "r") as file:
+        conteudo_fluxo = json.load(file)
+    
+    nos = [no for no in conteudo_fluxo['nodes']]
+    for i, no in enumerate(nos):
+        if no["type"].split(".")[-1] == "set":
+            parametros = no["parameters"]
+            assignments = parametros["assignments"]
+            assignments_lista = assignments["assignments"]
+            for atributo in assignments_lista:
+                if atributo["name"] == propriedade:
+                    atributo["value"] = novo_valor
+                    print(f"Atributo {propriedade} alterado para: {novo_valor}")
+                    break
+    
+    with open(fluxo, "w") as file:
+        json.dump(conteudo_fluxo, file, indent=2)
+
+# Exemplo de uso da função
+altera_Atributo("nome_propriedade", "novo_valor")
+
+atributo_valor = get_Variaveis(get_Nos())
+altera_Atributo(propriedade=atributo_valor[0], novo_valor=atributo_valor[1])
 # Fazer uma requisição POST para criar um novo workflow
-response = requests.post(url, headers=HEADERS, data=json.dumps(data))
-
-# Verificar a resposta
-if response.status_code == 200:
-    print('Workflow criado com sucesso!')
-    print(response.json())
-else:
-    print(f'Erro ao criar workflow: {response.status_code}')
-    print(response.text)
+#response = requests.post(url, headers=HEADERS, data=json.dumps(data))
+#
+## Verificar a resposta
+#if response.status_code == 200:
+#    print('Workflow criado com sucesso!')
+#    print(response.json())
+#else:
+#    print(f'Erro ao criar workflow: {response.status_code}')
+#    print(response.text)
