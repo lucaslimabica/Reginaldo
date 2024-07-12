@@ -19,3 +19,4 @@ venv/
 *.log
 *.sqlite3
 *.json
+*.json

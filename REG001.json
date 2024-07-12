@@ -68,35 +68,6 @@
             }
         },
         {
-            "nome": "Info Produtos",
-            "payload": {
-                "funil": "Curso Online",
-                "fases": "Compra Realizada, Envio de Follow Ups, Durante, Formatura, Upselling",
-                "campos": [
-                    [
-                        "Turma",
-                        "deals",
-                        "Texto"
-                    ],
-                    [
-                        "M\u00e9todo de Pagamento",
-                        "deals",
-                        "Escolha",
-                        [
-                            "MBWay",
-                            "Multibanco"
-                        ]
-                    ]
-                ],
-                "atividades": [
-                    [
-                        "Marcar Formatura",
-                        "calendar"
-                    ]
-                ]
-            }
-        },
-        {
             "nome": "Siri Cascudo",
             "payload": {
                 "funil": "Hamburguer de Siri",
@@ -143,60 +114,6 @@
                     ],
                     [
                         "Tem Alface?",
-                        "deals",
-                        "Escolha",
-                        [
-                            "Sim",
-                            "Nao"
-                        ]
-                    ]
-                ],
-                "atividades": [
-                    [
-                        "Enviar",
-                        "task"
-                    ]
-                ]
-            }
-        },
-        {
-            "nome": "Siri Cascudov2",
-            "payload": {
-                "funil": "Hamburguer de Siri",
-                "fases": "Pedido, Cozinha, Entrega, AS",
-                "campos": [
-                    [
-                        "Preco",
-                        "deals",
-                        "Numero"
-                    ],
-                    [
-                        "Peso",
-                        "deals",
-                        "Numero"
-                    ],
-                    [
-                        "Nome",
-                        "deals",
-                        "Texto"
-                    ],
-                    [
-                        "Descricao",
-                        "deals",
-                        "Texto"
-                    ],
-                    [
-                        "Data de Entrega",
-                        "deals",
-                        "Data"
-                    ],
-                    [
-                        "Data do Pedido",
-                        "deals",
-                        "Data"
-                    ],
-                    [
-                        "Apimentado",
                         "deals",
                         "Escolha",
                         [
