@@ -557,7 +557,7 @@ class N8NPage(ttk.Frame):
         self.dropdown = ttk.Combobox(self, textvariable=self.variavel_dropdown, values=PyN8N.getListaModelos(), style='TCombobox')
         self.dropdown.pack(pady=5, padx=10)
         self.dropdown.bind("<<ComboboxSelected>>", self.on_select)
-
+        ### CONTINUAR DAQUI!
         self.label_etapa_gatilho = ttk.Label(self, text="Etapa Gatilho:")
         self.entrada_tipo_atv = ttk.Entry(self, width=50)
 
