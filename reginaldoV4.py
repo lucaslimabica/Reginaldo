@@ -4,7 +4,7 @@ from tkinter import ttk
 import PipeANDStages
 import re
 import random
-import REGistador001
+import REGistador001, PyN8N
 
 
 class AppState:
@@ -49,7 +49,7 @@ class App(tk.Tk):
         self.frames = {}
 
         # Inicialização dos frames
-        for F in (HomePage, EtapasFunisPage, CamposPage, AtividadesPage, UsersPage, TemplatesPage, APIsPage, TemplateAtelier):
+        for F in (HomePage, EtapasFunisPage, CamposPage, AtividadesPage, UsersPage, TemplatesPage, APIsPage, TemplateAtelier, N8NPage):
             page_name = F.__name__
             frame = F(parent=container, controller=self, app_state=self.app_state)
             self.frames[page_name] = frame
@@ -104,6 +104,8 @@ class HomePage(ttk.Frame):
                              command=lambda: controller.show_frame("APIsPage"), style="Custom.TButton")
         button7 = ttk.Button(self, text="Atelier de Templates", 
                              command=lambda: controller.show_frame("TemplateAtelier"), style="Custom.TButton")
+        button8 = ttk.Button(self, text="Fabrica de Automações", 
+                             command=lambda: controller.show_frame("N8NPage"), style="Custom.TButton")
 
         # Posicionando os botões na grid
         ttk.Label(self, text="Criação do Ambiente Pipedrive").grid(row=5, column=0, padx=5, pady=10, columnspan=2)
@@ -116,6 +118,7 @@ class HomePage(ttk.Frame):
         button5.grid(row=10, column=0, padx=5, pady=10)
         button6.grid(row=10, column=1, padx=5, pady=10)
         button7.grid(row=11, column=0, padx=5, pady=10)
+        button8.grid(row=11, column=1, padx=5, pady=10)
 
     def save_token(self):
         token = self.api_token_entry.get()
@@ -545,27 +548,25 @@ class N8NPage(ttk.Frame):
         ttk.Label(self, text="Crie um Novo Fluxo").pack(padx=10, pady=5)
 
         ttk.Label(self, text="Nome do Fluxo:").pack(padx=10, pady=5)
-        self.entrada_nome_fluxo = ttk.Entry(self, width=70)
+        self.entrada_nome_fluxo = ttk.Entry(self, width=50)
         self.entrada_nome_fluxo.pack(padx=10, pady=5)
 
-        #ttk.Label(self, text="Token da API:").pack(padx=10, pady=5)
-        #self.entrada_token_api = ttk.Entry(self, width=70)
-        #self.entrada_token_api.pack(padx=10, pady=5)
-
-        # Criar API
-        #self.botao_criar_api = ttk.Button(self, text="Salvar API", command=self.salvarAPI, style="Custom.TButton")
-        #self.botao_criar_api.pack(padx=10, pady=10)
-
-        # Lista de APIs
+        # Lista de Modelos
         ttk.Label(self, text="Selecione o Modelo de Fluxo").pack(padx=10, pady=5)
-
         self.variavel_dropdown = tk.StringVar()
-        self.dropdown = ttk.Combobox(self, textvariable=self.variavel_dropdown, values=REGistador001.listaAPIs(), style='TCombobox')
+        self.dropdown = ttk.Combobox(self, textvariable=self.variavel_dropdown, values=PyN8N.getListaModelos(), style='TCombobox')
         self.dropdown.pack(pady=5, padx=10)
+        self.dropdown.bind("<<ComboboxSelected>>", self.on_select)
 
-        # Selecionar API
-        self.botao_selecionar_api = ttk.Button(self, text="Selecionar API", command=self.selecionarAPI, style="Custom.TButton")
-        self.botao_selecionar_api.pack(padx=10, pady=10)
+        self.label_etapa_gatilho = ttk.Label(self, text="Etapa Gatilho:")
+        self.entrada_tipo_atv = ttk.Entry(self, width=50)
+
+        self.label_atividade_gatilho = ttk.Label(self, text="Título da Atividade:")
+        self.entrada_tipo_atv = ttk.Entry(self, width=50)
+
+        # Salvar Modelo
+        self.botao_selecionar_modelo = ttk.Button(self, text="Salvar Modelo", command=self.selecionarModelo, style="Custom.TButton")
+        self.botao_selecionar_modelo.pack(padx=10, pady=10)
 
         self.token_label = ttk.Label(self, text="")
         self.token_label.pack(pady=10, padx=10)
@@ -581,23 +582,19 @@ class N8NPage(ttk.Frame):
             self.token_label.config(text="Token de API não definido")
         super().tkraise(aboveThis)
 
-    def salvarAPI(self):
-        nome = self.entrada_nome_api.get()
-        token = self.entrada_token_api.get()
-        REGistador001.salvarAPI(api=token, nome=nome)
-        self.tkraise()
-        self.selecionarAPI(modo="Criacao")
-        REGistador001.fazer_LOG(acao=f"Criacao de API. Cliente: {nome}", api=self.app_state.api_token)
-        self.atualizar_dropdown()
-
-    def selecionarAPI(self, modo="Selecao"):
-        if modo == "Selecao":
-            nome = self.variavel_dropdown.get()
-        else:
-            nome = self.entrada_nome_api.get()
-        self.app_state.api_token = REGistador001.getAPI(nome)
+    def selecionarModelo(self):
         EtapasFunisPage.atualizar_dropdown(self)
         self.tkraise()
+
+    # Função que faz aparecer os campos de cada modelo de fluxo
+    def on_select(self, event):
+        selected_value = self.variavel_dropdown.get()
+        if selected_value == "Criacao de Atividade":
+            self.label_atividade_gatilho.pack(padx=10, pady=5)
+            self.entrada_tipo_atv.pack(padx=10, pady=5)
+        else:
+            self.label_atividade_gatilho.pack_forget()
+            self.entrada_tipo_atv.pack_forget()
 
     def atualizar_dropdown(self):
         novas_opcoes = REGistador001.listaAPIs()

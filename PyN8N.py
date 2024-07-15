@@ -16,11 +16,11 @@ CAMINHO_EXEMPLO = "C:/Users/lusca/Scripts/Scripts do Pipes/FluxoBase001.json"
 CAMINHO_MODELOS = "C:/Users/lusca/Scripts/Scripts do Pipes/ListaDeFluxos.json"
 
 DATA = {
-  "name": "Workflow 1",
+  "name": "Workflow Template",
   "nodes": [
     {
       "id": "0f5532f9-36ba-4bef-86c7-30d607400b15",
-      "name": "Jira",
+      "name": "Reginaldo",
       "webhookId": "string",
       "disabled": True,
       "notesInFlow": True,
@@ -88,6 +88,19 @@ DATA = {
 }
 
 # Funções Getters
+
+def getListaModelos(lista = CAMINHO_MODELOS):
+  """
+  Permite pegar todos os modelos de fluxos
+  Retorna uma lista de string do nome_modelo do fluxo N8N.
+  """
+  listam = []
+  with open(CAMINHO_MODELOS, "r") as file:
+    lista = json.load(file)
+    for modelo in lista["modelos"]:
+       listam.append(modelo["nome_modelo"])
+  return listam
+
 def get_Modelo(nome_modelo):
   with open(CAMINHO_MODELOS, "r") as file:
     lista = json.load(file)
@@ -179,6 +192,6 @@ def criar_Fluxo(novo_nome, fluxo=CAMINHO_EXEMPLO):
     print(f'Erro ao criar workflow: {response.status_code}')
     print(response.text)
 
-criar_Fluxo("TestePyN8N000")
+#criar_Fluxo("TestePyN8N000")
 
    
