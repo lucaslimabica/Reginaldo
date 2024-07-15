@@ -13,8 +13,93 @@ HEADERS = {
 }
 
 CAMINHO_EXEMPLO = "C:/Users/lusca/Scripts/Scripts do Pipes/FluxoBase001.json"
+CAMINHO_MODELOS = "C:/Users/lusca/Scripts/Scripts do Pipes/ListaDeFluxos.json"
+
+DATA = {
+  "name": "Workflow 1",
+  "nodes": [
+    {
+      "id": "0f5532f9-36ba-4bef-86c7-30d607400b15",
+      "name": "Jira",
+      "webhookId": "string",
+      "disabled": True,
+      "notesInFlow": True,
+      "notes": "string",
+      "type": "n8n-nodes-base.Jira",
+      "typeVersion": 1,
+      "executeOnce": False,
+      "alwaysOutputData": False,
+      "retryOnFail": False,
+      "maxTries": 0,
+      "waitBetweenTries": 0,
+      "onError": "stopWorkflow",
+      "position": [
+        -100,
+        80
+      ],
+      "parameters": {
+        "additionalProperties": {}
+      },
+      "credentials": {
+        "jiraSoftwareCloudApi": {
+          "id": "35",
+          "name": "jiraApi"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Pipedrive Trigger1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Pipedrive1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "saveExecutionProgress": True,
+    "saveManualExecutions": True,
+    "saveDataErrorExecution": "all",
+    "saveDataSuccessExecution": "all",
+    "executionTimeout": 3600,
+    "errorWorkflow": "VzqKEW0ShTXA5vPj",
+    "timezone": "America/New_York",
+    "executionOrder": "v1"
+  },
+  "staticData": {
+    "lastId": 1
+  }
+}
 
 # Funções Getters
+def get_Modelo(nome_modelo):
+  with open(CAMINHO_MODELOS, "r") as file:
+    lista = json.load(file)
+    for modelo in lista["modelos"]:
+       if modelo["nome_modelo"] == nome_modelo:
+        nos = [no for no in modelo['nodes']]
+    for i, no in enumerate(nos):
+      if no["type"].split(".")[-1] == "set":
+        print(f"Nó {i + 1} - {no["name"]}")
+    escolha = int(input("Qual Nó deve ser alterado?"))
+  return nos[escolha - 1]
+
 
 def get_Nos(caminho=CAMINHO_EXEMPLO) -> dict:
   """
@@ -63,21 +148,37 @@ def altera_Atributo(propriedade, novo_valor, fluxo=CAMINHO_EXEMPLO):
                     print(f"Atributo {propriedade} alterado para: {novo_valor}")
                     break
     
-    with open(fluxo, "w") as file:
-        json.dump(conteudo_fluxo, file, indent=2)
+    return conteudo_fluxo
+    #with open(fluxo, "w") as file:
+    #    json.dump(conteudo_fluxo, file, indent=2)
 
-# Exemplo de uso da função
-altera_Atributo("nome_propriedade", "novo_valor")
 
-atributo_valor = get_Variaveis(get_Nos())
-altera_Atributo(propriedade=atributo_valor[0], novo_valor=atributo_valor[1])
-# Fazer uma requisição POST para criar um novo workflow
-#response = requests.post(url, headers=HEADERS, data=json.dumps(data))
-#
-## Verificar a resposta
-#if response.status_code == 200:
-#    print('Workflow criado com sucesso!')
-#    print(response.json())
-#else:
-#    print(f'Erro ao criar workflow: {response.status_code}')
-#    print(response.text)
+#atributo_valor = get_Variaveis(get_Nos())
+#altera_Atributo(propriedade=atributo_valor[0], novo_valor=atributo_valor[1])
+
+# Criador de Lista de Nós
+def criar_Fluxo(novo_nome, fluxo=CAMINHO_EXEMPLO):
+  """
+  Faz o POST do novo fluxo com base no modelo selecionado.
+  
+  :param novo_nome: String com o nome do novo fluxo
+  :param fluxo: Caminho do arquivo com o modelo do fluxo. Default: CAMINHO_EXEMPLO
+  """
+  with open(fluxo, "r") as file:
+    conteudo_fluxo = json.load(file)
+    file.close()
+  nos = conteudo_fluxo['nodes']
+  novo_fluxo = DATA
+  novo_fluxo["name"] = novo_nome
+  novo_fluxo['nodes'] = nos
+  response = requests.post(url, headers=HEADERS, data=json.dumps(novo_fluxo))
+  if response.status_code == 200:
+    print('Workflow criado com sucesso!')
+    # print(response.json())
+  else:
+    print(f'Erro ao criar workflow: {response.status_code}')
+    print(response.text)
+
+criar_Fluxo("TestePyN8N000")
+
+   
