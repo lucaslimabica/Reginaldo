@@ -1,5 +1,5 @@
-import requests, json, random, inspect
-from PypeClass import Funil
+import requests, json, random
+
 
 # API Token e Headers
 
