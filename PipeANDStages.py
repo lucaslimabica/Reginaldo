@@ -134,7 +134,9 @@ def criar_TipoAtividade(nome, icon="task", api_token=API_TOKEN):
     }
     HEADERS["Authorization"] =  f"{api_token}"
     response = requests.post(url=f"{urlAtv}{api_token}", data=json.dumps(payload), headers=HEADERS)
-    return response.json()
+    if response.status_code == 201 or response.status_code == 200:
+        print(f"Sucesso! Atividade {nome} criado")
+    print(response.json())
 
 def criar_User(nome, email, api_token=API_TOKEN):
     payload = {

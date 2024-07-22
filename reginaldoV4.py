@@ -545,7 +545,7 @@ class N8NPage(ttk.Frame):
 
         ttk.Label(self, text="Fábrica de Automações", font=('@Microsft YaHei UI', 20, "bold")).pack(pady=10)
 
-        ttk.Label(self, text="Crie um Novo Fluxo").pack(padx=10, pady=5)
+        ttk.Label(self, text="Crie uma Nova Automação").pack(padx=10, pady=5)
 
         ttk.Label(self, text="Nome do Fluxo:").pack(padx=10, pady=5)
         self.entrada_nome_fluxo = ttk.Entry(self, width=50)
@@ -554,18 +554,12 @@ class N8NPage(ttk.Frame):
         # Lista de Modelos
         ttk.Label(self, text="Selecione o Modelo de Fluxo").pack(padx=10, pady=5)
         self.variavel_dropdown = tk.StringVar()
-        self.dropdown = ttk.Combobox(self, textvariable=self.variavel_dropdown, values=PyN8N.getListaModelos(), style='TCombobox')
+        self.dropdown = ttk.Combobox(self, textvariable=self.variavel_dropdown, values=PyN8N.listaDeModelos(), style='TCombobox')
         self.dropdown.pack(pady=5, padx=10)
         self.dropdown.bind("<<ComboboxSelected>>", self.on_select)
-        ### CONTINUAR DAQUI!
-        self.label_etapa_gatilho = ttk.Label(self, text="Etapa Gatilho:")
-        self.entrada_tipo_atv = ttk.Entry(self, width=50)
-
-        self.label_atividade_gatilho = ttk.Label(self, text="Título da Atividade:")
-        self.entrada_tipo_atv = ttk.Entry(self, width=50)
 
         # Salvar Modelo
-        self.botao_selecionar_modelo = ttk.Button(self, text="Salvar Modelo", command=self.selecionarModelo, style="Custom.TButton")
+        self.botao_selecionar_modelo = ttk.Button(self, text="Criar Fluxo", command=self.selecionarModelo, style="Custom.TButton")
         self.botao_selecionar_modelo.pack(padx=10, pady=10)
 
         self.token_label = ttk.Label(self, text="")
@@ -583,24 +577,10 @@ class N8NPage(ttk.Frame):
         super().tkraise(aboveThis)
 
     def selecionarModelo(self):
-        EtapasFunisPage.atualizar_dropdown(self)
-        self.tkraise()
+        PyN8N.criaFluxo(self.entrada_nome_fluxo.get(), self.selected_value)
 
-    # Função que faz aparecer os campos de cada modelo de fluxo
     def on_select(self, event):
-        selected_value = self.variavel_dropdown.get()
-        if selected_value == "Criacao de Atividade":
-            self.label_atividade_gatilho.pack(padx=10, pady=5)
-            self.entrada_tipo_atv.pack(padx=10, pady=5)
-        else:
-            self.label_atividade_gatilho.pack_forget()
-            self.entrada_tipo_atv.pack_forget()
-
-    def atualizar_dropdown(self):
-        novas_opcoes = REGistador001.listaAPIs()
-        self.dropdown['values'] = novas_opcoes
-        if novas_opcoes:
-            self.variavel_dropdown.set(novas_opcoes[0])
+        self.selected_value = self.variavel_dropdown.get()
 
 
 class APIsPage(ttk.Frame):
