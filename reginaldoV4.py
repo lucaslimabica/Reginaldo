@@ -226,7 +226,7 @@ class CamposPage(ttk.Frame):
         
         ttk.Label(self, text="Selecione o Sítio:").pack(padx=10, pady=5)
         self.variavel_dropdown = tk.StringVar()
-        self.dropdown = ttk.Combobox(self, textvariable=self.variavel_dropdown, values=["Negócios/Leads", "Pessoas", "Organizações"], style='TCombobox')
+        self.dropdown = ttk.Combobox(self, textvariable=self.variavel_dropdown, values=["deals", "persons", "Organizações"], style='TCombobox')
         self.dropdown.pack(pady=5, padx=10)
 
         self.botao_enviar_campo = ttk.Button(self, text="Criar Campo", command=self.criarCampo, style="Custom.TButton")
@@ -250,7 +250,7 @@ class CamposPage(ttk.Frame):
         nome = self.entrada_nome_campo.get()
         tipo = self.variavel_dropdown_tipo.get()
         sitio = self.variavel_dropdown.get()
-        if sitio == "Negócios/Leads":
+        if sitio == "Negócios/Leads" or sitio == "":
             sitio == "deals"
         elif sitio == "Pessoas":
             sitio == "persons"
@@ -265,7 +265,7 @@ class CamposPage(ttk.Frame):
                 random_id += 1
             dadoscampo["options"] = tmp_lista
                 
-        PipeANDStages.criar_Campo(nome, tipo, info=dadoscampo, api_token=self.app_state.api_token)
+        PipeANDStages.criar_Campo(nome, sitio=sitio, tipo=tipo, info=dadoscampo, api_token=self.app_state.api_token)
         REGistador001.fazer_LOG(f"Criação dos Campos: {nome}", self.app_state.api_token)
 
 class AtividadesPage(ttk.Frame):

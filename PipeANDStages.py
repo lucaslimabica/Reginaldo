@@ -95,19 +95,19 @@ def criar_Campo(nomes: str, tipo: str, sitio="deals", info=None, api_token=API_T
     "set" -> Multipla Escolha
     "time" -> Hora
     """
-    sitio = sitio.lower()
+    sitio = sitio
     if sitio == "deals":
         url = f"{urlDealsFields}{api_token}"
     elif sitio == "persons":
         url = f"{urlPersonsFields}{api_token}"
-    else:
+    elif sitio != "deals" and sitio != "persons":
         url = f"{urlOrgsFields}{api_token}"
     HEADERS["Authorization"] =  f"{api_token}"
     lista_nomes = [nome.strip() for nome in nomes.split(", ")]
     types = {"Texto": "varchar",
              "Escolha": "enum",
              "Data": "date",
-             "Moeda": "currency",
+             "Moeda": "monetary",
              "Status": "status",
              "Numero": "double",
              "Multipla Escolha": "set", 
