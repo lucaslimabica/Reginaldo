@@ -160,7 +160,7 @@ class EtapasFunisPage(ttk.Frame):
         self.token_label = ttk.Label(self, text="")
         self.token_label.pack(pady=10, padx=10)
 
-        self.button = ttk.Button(self, text="Voltar para a Página Inicial", 
+        self.button = ttk.Button(self, text="Voltar à Página Inicial", 
                            command=lambda: controller.show_frame("HomePage"), style="Custom.TButton")
         self.button.pack(pady=10)
 
